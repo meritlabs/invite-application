@@ -21,7 +21,7 @@ client.on('ready', () => {
     if (item.name === CHANNEL_NAME) {
       membersCount = item.members.array().length;
       app.get('/', function(req, res) {
-        res.json({ channel: CHANNEL_NAME, members: membersCount });
+        res.jsonp({ channel: CHANNEL_NAME, members: membersCount });
       });
     }
   });
