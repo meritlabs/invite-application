@@ -1,0 +1,27 @@
+{
+  "name": "merit-discord-bot",
+  "version": "0.0.1",
+  "description": "Discord bot for community size parsing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meritlabs/discord-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "merit"
+  ],
+  "author": "Vladimir Gutorov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meritlabs/discord-bot/issues"
+  },
+  "homepage": "https://github.com/meritlabs/discord-bot#readme",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "express": "^4.16.3"
+  }
+}
