@@ -4,16 +4,14 @@
   "description": "Discord bot for community size parsing",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/meritlabs/discord-bot.git"
   },
-  "keywords": [
-    "discord",
-    "merit"
-  ],
+  "keywords": ["discord", "merit"],
   "author": "Vladimir Gutorov",
   "license": "ISC",
   "bugs": {
