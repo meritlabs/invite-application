@@ -1,7 +1,7 @@
 const express = require('express'),
   Discord = require('discord.js'),
   client = new Discord.Client(),
-  CHANNEL_NAME = process.env.CHANNEL_NAME || 'merit',
+  CHANNEL_NAME = process.env.CHANNEL_NAME || '',
   BOT_TOKEN = process.env.BOT_TOKEN || '';
 
 var app = express();
@@ -19,7 +19,7 @@ client.on('ready', () => {
     membersCount = 0;
   guilds.forEach(item => {
     if (item.name === CHANNEL_NAME) {
-      membersCount = item.members.array().length;
+      membersCount = item.memberCount;
       app.get('/', function(req, res) {
         res.jsonp({ channel: CHANNEL_NAME, members: membersCount });
       });
