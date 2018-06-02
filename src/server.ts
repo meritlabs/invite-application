@@ -31,14 +31,19 @@ var time: number = 0,
 
 wss.on('connection', (ws: WebSocket) => {
   time = Date.now();
-  connectionID = `request#${fakeId++}-${time}`;
+  connectionID = `#${fakeId++}-${time}`;
   (ws as any).id = connectionID;
 
-  ws.on('message', (message: string) => {
-    sendToChannels(client, message);
-  });
-  getGuildInfo(app, client, CHANNEL_NAME);
+  let inviteRequestMessage = `Hey All!\nNew user from the site *${connectionID}* is looking for invite!\nIf you want to send this invite please DM current bot with init message: "Chat with ${connectionID}".`;
+
+  sendToChannels(client, inviteRequestMessage);
 });
+
+// ws.on('message', (message: string) => {
+
+// });
+
+getGuildInfo(app, client, CHANNEL_NAME);
 
 // wss.clients.forEach((item: any) => {
 //   if (item.id !== connectionID) {
