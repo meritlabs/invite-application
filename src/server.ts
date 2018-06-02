@@ -7,6 +7,7 @@ import * as Discord from 'discord.js';
 
 import { sendToChannels } from './discord/send';
 import { getGuildInfo } from './discord/guild';
+import { isConnectionExist } from './ws-schat/check-connection';
 
 const app = express(),
   server = http.createServer(app),
@@ -34,17 +35,24 @@ wss.on('connection', (ws: WebSocket) => {
   connectionID = `#${fakeId++}-${time}`;
   (ws as any).id = connectionID;
 
-  let inviteRequestMessage = `Hey All!\nNew user from the site \`${connectionID}\` is looking for invite!\nIf you want to send this invite please DM current bot with init message: \`to: ${connectionID}\`.`;
+  let inviteRequestMessage = `Hey All!\nNew user from the site \`${connectionID}\` is looking for invite!\nIf you want to send this invite please DM current bot with init message: \`to: ${connectionID}@\`.`;
 
   sendToChannels(client, inviteRequestMessage);
 });
 
 client.on('message', (message: any) => {
-  let type = message.channel.type,
-    _message = message.content,
-    isValid = /^to: #/.test(_message);
+  let type: string = message.channel.type,
+    _message: string = message.content,
+    isValid: any = /^to: #/.test(_message),
+    connectionID: any;
   if (type === 'dm' && isValid) {
-    console.log(_message);
+    connectionID = _message.toString().split('@')[0];
+    connectionID = connectionID.split('to: ')[1];
+    if (isConnectionExist(wss, connectionID)) {
+      message.author.send('Real connection!');
+    } else {
+      message.author.send('OOooops, connection is not exist :(');
+    }
   } else if (type === 'dm' && !isValid) {
     message.author.send('OOooops, you forgot set `to: #user-id`');
   }
@@ -55,9 +63,3 @@ client.on('message', (message: any) => {
 // });
 
 getGuildInfo(app, client, CHANNEL_NAME);
-
-// wss.clients.forEach((item: any) => {
-//   if (item.id !== connectionID) {
-//     item.send(`Joined: ${connectionID}`);
-//   }
-// });

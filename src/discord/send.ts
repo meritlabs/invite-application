@@ -9,6 +9,7 @@ export function sendToChannels(client: any, message: string) {
         }
       }
     });
-    defaultChannel.send(message);
+    // defaultChannel.send(message);
+    console.log(message);
   });
 }
