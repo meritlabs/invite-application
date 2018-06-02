@@ -34,7 +34,7 @@ wss.on('connection', (ws: WebSocket) => {
   connectionID = `#${fakeId++}-${time}`;
   (ws as any).id = connectionID;
 
-  let inviteRequestMessage = `Hey All!\nNew user from the site *${connectionID}* is looking for invite!\nIf you want to send this invite please DM current bot with init message: "Chat with ${connectionID}".`;
+  let inviteRequestMessage = `Hey All!\nNew user from the site \`${connectionID}\` is looking for invite!\nIf you want to send this invite please DM current bot with init message: \`Chat with: ${connectionID}\`.`;
 
   sendToChannels(client, inviteRequestMessage);
 });
