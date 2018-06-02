@@ -34,9 +34,20 @@ wss.on('connection', (ws: WebSocket) => {
   connectionID = `#${fakeId++}-${time}`;
   (ws as any).id = connectionID;
 
-  let inviteRequestMessage = `Hey All!\nNew user from the site \`${connectionID}\` is looking for invite!\nIf you want to send this invite please DM current bot with init message: \`Chat with: ${connectionID}\`.`;
+  let inviteRequestMessage = `Hey All!\nNew user from the site \`${connectionID}\` is looking for invite!\nIf you want to send this invite please DM current bot with init message: \`to: ${connectionID}\`.`;
 
   sendToChannels(client, inviteRequestMessage);
+});
+
+client.on('message', (message: any) => {
+  let type = message.channel.type,
+    _message = message.content,
+    isValid = /^to: #/.test(_message);
+  if (type === 'dm' && isValid) {
+    console.log(_message);
+  } else if (type === 'dm' && !isValid) {
+    message.author.send('OOooops, you forgot set `to: #user-id`');
+  }
 });
 
 // ws.on('message', (message: string) => {
