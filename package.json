@@ -4,7 +4,7 @@
   "description": "Discord bot for community size parsing",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "tsc && CHANNEL_NAME=merit BOT_TOKEN=NDQ5ODYyMTU4OTM5ODQ4NzA1.DfK9jw.axo-z5ciXdsvY0Za7k6VL28RYjc node ./dist/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-dev": "tsc && CHANNEL_NAME=merit BOT_TOKEN=NDQ5ODYyMTU4OTM5ODQ4NzA1.DfK9jw.axo-z5ciXdsvY0Za7k6VL28RYjc node ./dist/server/server.js"
   },
