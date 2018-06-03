@@ -80,3 +80,5 @@ client.on('message', (message: any) => {
 });
 
 getGuildInfo(app, client, CHANNEL_NAME);
+
+app.use('/get-invite', express.static('./dist/server/chat-form'));
