@@ -12,11 +12,30 @@
   <title>Invite chat</title>
 </head>
 
-<body>
-  <h1>Hey, this is invite chat!</h1>
+<body class="chatWindow">
+  <div class="chatWindow__wrap">
+    <div class="chatWindow__title">
+      <p>Welcome to the Merit Inite Application!</p>
+    </div>
+    <div class="chatWindow__content">
+      <div class="initialMessage">
+        <div class="initialMessage__title">
+          <p>Wanna get invite right now?</p>
+        </div>
+        <div class="initialMessage__description">
+          <p>Write briefly "Why are you god actor for the Merit Network?"</p>
+          <p>
+            <em>*Message min length 150 symbols.</em>
+          </p>
+        </div>
+        <form class="form">
+          <textarea name="Message" class="form__input"></textarea>
+          <button class="form_button">REQUEST NOW</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="form.js"></script>
 </body>

@@ -1,2 +1,17 @@
-body
-  background: #000
+@import "../common/sass/reset"
+@import "../common/sass/variables"
+html, body
+  width: 100%
+  height: 100%
+body.chatWindow
+  background: $IRON
+  font-family: Verdana, Geneva, sans-serif;
+  color: $EBONY_CLAY
+  display: flex
+  justify-content: center
+  align-items: center
+.chatWindow__wrap
+  max-height: 500px
+  max-width: 500px
+  height: 100%
+  width: 100%
