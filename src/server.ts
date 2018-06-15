@@ -8,7 +8,7 @@ import * as Discord from 'discord.js';
 import { sendToChannels } from './discord/send';
 import { getGuildInfo } from './discord/guild';
 import { getConnection, checkPair } from './ws-schat/check-connection';
-
+import { compileInitMessage } from './ws-schat/send';
 import { chatPair } from './models/pair';
 
 const app = express(),
@@ -30,7 +30,7 @@ server.listen(process.env.PORT || 8999, () => {
 
 let time: number = 0,
   fakeId: number = 0,
-  connectionID: any,
+  connectionID: string,
   chatPairs = [];
 
 wss.on('connection', (ws: WebSocket) => {
@@ -38,13 +38,8 @@ wss.on('connection', (ws: WebSocket) => {
   connectionID = `#${fakeId++}-${time}`;
   (ws as any).id = connectionID;
 
-  let inviteRequestMessage = `Hey All!\nNew user from the site \`${connectionID}\` is looking for invite!\nIf you want to send this invite please DM current bot with init message: \`to: ${connectionID}@\`.`;
-
-  sendToChannels(client, inviteRequestMessage);
-
   ws.on('message', (message: string) => {
-    let discordUser = (ws as any).discordUser;
-    discordUser.send(`${(ws as any).id}\n ${message}`);
+    sendToChannels(client, compileInitMessage(message, connectionID));
   });
 });
 
