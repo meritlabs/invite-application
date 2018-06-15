@@ -1,11 +1,17 @@
 declare var $: any;
 
 $('document').ready(function() {
-  // var socket = new WebSocket('ws://localhost:8999/');
-  // socket.onopen = function() {
-  //   alert('connected');
-  // };
-  // socket.onmessage = function(event) {
-  //   alert(event.data);
-  // };
+  let socket;
+  $('#sendRequest').submit(function(e) {
+    e.preventDefault();
+    let message = $('textarea[name=message]').val();
+    if (message.length > 150) {
+      socket = new WebSocket('ws://localhost:8999/');
+
+      socket.onopen = function() {
+        console.log('connected');
+        socket.send(message);
+      };
+    }
+  });
 });
