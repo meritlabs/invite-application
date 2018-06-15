@@ -4,10 +4,10 @@
   "description": "Discord bot for community size parsing",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/tsc && npm run cpHtml && npm run runServer",
+    "start": "./node_modules/.bin/tsc && npm run gulpBuild && npm run runServer",
     "test": "echo \"Error: no test specified\" && exit 1",
     "runServer": "CHANNEL_NAME=merit BOT_TOKEN=NDQ5ODYyMTU4OTM5ODQ4NzA1.DfK9jw.axo-z5ciXdsvY0Za7k6VL28RYjc node ./dist/server/server.js",
-    "cpHtml": "cp src/chat-form/index.html dist/server/chat-form/index.html"
+    "gulpBuild": "./node_modules/.bin/gulp html sass"
   },
   "repository": {
     "type": "git",
@@ -25,8 +25,13 @@
     "@types/ws": "^5.1.1",
     "discord.js": "^11.3.2",
     "express": "^4.16.3",
+    "gulp-html": "^0.5.0",
     "http": "0.0.0",
     "typescript": "^2.9.1",
     "ws": "^5.2.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1"
   }
 }
