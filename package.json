@@ -4,21 +4,18 @@
   "description": "Discord bot for community size parsing",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/tsc && npm run gulp:build && npm run run:server",
+    "start": "npm run gulp:build && npm run run:server",
     "start:dev": "npm-run-all --parallel gulp:watch run:server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "run:server": "CHANNEL_NAME=merit BOT_TOKEN=NDQ5ODYyMTU4OTM5ODQ4NzA1.DfK9jw.axo-z5ciXdsvY0Za7k6VL28RYjc node ./dist/server/server.js",
-    "gulp:build": "./node_modules/.bin/gulp html sass",
+    "gulp:build": "./node_modules/.bin/gulp compileTS html sass",
     "gulp:watch": "./node_modules/.bin/gulp watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/meritlabs/discord-bot.git"
   },
-  "keywords": [
-    "discord",
-    "merit"
-  ],
+  "keywords": ["discord", "merit"],
   "author": "Vladimir Gutorov",
   "license": "ISC",
   "bugs": {
