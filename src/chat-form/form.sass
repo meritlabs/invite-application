@@ -15,3 +15,54 @@ body.chatWindow
   max-width: 500px
   height: 100%
   width: 100%
+.chatWindow__title
+  font-size: 24px
+  font-weight: 600
+  color: $DODGER_BLUE
+  text-align: center
+  margin-bottom: 40px
+.initialMessage
+  &__title,
+  &__description
+    text-align: center
+    line-height: 24px
+    p
+      margin-bottom: 5px
+  &__title
+    font-size: 20px
+    font-weight: 600
+    margin-bottom: 10px
+    opacity: .8
+  &__description
+    font-size: 14px
+    margin-bottom: 30px
+    em
+      opacity: .8
+      font-size: 12px
+.form
+  display: block
+  width: 100%
+  &__input
+    width: 100%
+    background: $PORCELAIN
+    resize: none
+    height: 130px
+    border: 2px solid $DODGER_BLUE
+    box-shadow: inset 0 0 10px rgba(0,0,0, .1)
+    border-radius: 4px
+    margin-bottom: 20px
+    padding: 10px
+    font-size: 16px
+    line-height: 20px
+    box-sizing: border-box
+  &__button
+    width: 100%
+    display: block
+    text-align: center
+    background: $JADE
+    box-shadow: 0 0 10px rgba(0,0,0, .1)
+    border-radius: 4px
+    font-size: 14px
+    font-weight: 500
+    color: $PORCELAIN
+    padding: 15px
