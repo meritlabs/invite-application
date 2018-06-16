@@ -5,7 +5,7 @@ $('document').ready(function() {
   $('#sendRequest').submit(function(e) {
     e.preventDefault();
     let message = $('textarea[name=message]').val();
-    if (message.length > 150) {
+    if (message.length > 1) {
       socket = new WebSocket('ws://localhost:8999/');
 
       socket.onopen = function() {

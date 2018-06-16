@@ -14,7 +14,8 @@ import { chatPair } from './models/pair';
 const app = express(),
   server = http.createServer(app),
   client = new Discord.Client(),
-  CHANNEL_NAME = process.env.CHANNEL_NAME || '',
+  GUILD_NAME = process.env.GUILD_NAME || '',
+  CHANNELS = process.env.CHANNELS || '',
   BOT_TOKEN = process.env.BOT_TOKEN || '';
 
 //initialize the WebSocket server instance
@@ -39,7 +40,7 @@ wss.on('connection', (ws: WebSocket) => {
   (ws as any).id = connectionID;
 
   ws.on('message', (message: string) => {
-    sendToChannels(client, compileInitMessage(message, connectionID));
+    sendToChannels(client, CHANNELS, compileInitMessage(message, connectionID));
   });
 });
 
@@ -74,6 +75,6 @@ client.on('message', (message: any) => {
   }
 });
 
-getGuildInfo(app, client, CHANNEL_NAME);
+getGuildInfo(app, client, GUILD_NAME);
 
 app.use('/get-invite', express.static('./dist/server/chat-form'));
