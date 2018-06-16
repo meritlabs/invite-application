@@ -13,7 +13,7 @@ import { chatPair } from './models/pair';
 
 const app = express(),
   server = http.createServer(app),
-  client = new Discord.Client(),
+  discordClient = new Discord.Client(),
   GUILD_NAME = process.env.GUILD_NAME || '',
   CHANNELS = process.env.CHANNELS || '',
   BOT_TOKEN = process.env.BOT_TOKEN || '';
@@ -22,7 +22,7 @@ const app = express(),
 const wss = new WebSocket.Server({ server });
 
 //Discord bot login
-client.login(BOT_TOKEN);
+discordClient.login(BOT_TOKEN);
 
 //start server
 server.listen(process.env.PORT || 8999, () => {
@@ -40,20 +40,21 @@ wss.on('connection', (ws: WebSocket) => {
   (ws as any).id = connectionID;
 
   ws.on('message', (message: string) => {
-    sendToChannels(client, CHANNELS, compileInitMessage(message, connectionID));
+    // sendToChannels(discordClient, CHANNELS, compileInitMessage(message, connectionID));
+    console.log(compileInitMessage(message, connectionID));
   });
 });
 
-client.on('message', (message: any) => {
+discordClient.on('message', (message: any) => {
   let type: string = message.channel.type,
     _message: string = message.content,
-    isValid: any = /^to: #/.test(_message),
+    isValid: any = /^send invite to: #/.test(_message),
     connectionID: any,
     discordUser: any;
 
   if (type === 'dm' && isValid && checkPair(chatPairs, discordUser) === null) {
     connectionID = _message.toString().split('@')[0];
-    connectionID = connectionID.split('to: ')[1];
+    connectionID = connectionID.split('send invite to: ')[1];
     discordUser = message.channel.recipient.username;
 
     let connection = getConnection(wss, connectionID);
@@ -75,6 +76,6 @@ client.on('message', (message: any) => {
   }
 });
 
-getGuildInfo(app, client, GUILD_NAME);
+getGuildInfo(app, discordClient, GUILD_NAME);
 
 app.use('/get-invite', express.static('./dist/server/chat-form'));

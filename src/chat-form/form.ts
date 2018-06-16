@@ -4,6 +4,7 @@ const titles = {
   welcomeTitle: 'Welcome to the Merit Inite Application!',
   waitingForInvite: 'Your messasge has been sent to community. Good luck!',
   noResponse: 'No luck :(',
+  userConnected: 'Congrats! Your request accepted!',
 };
 const appTitle = $('.chatWindow__title .text'),
   noResponse = $('.noResponse'),
@@ -18,15 +19,21 @@ $('document').ready(function() {
     if (message.length > 1) {
       const socket: any = new WebSocket('ws://localhost:8999/');
       socket.onopen = function() {
-        // socket.send(message);
+        socket.send(message);
         sendingForm.removeClass('invalid').addClass('valid');
         countDown.addClass('active');
         appTitle.text(titles.waitingForInvite);
-        requestStatus(0.5).then(res => {
-          if (!res) {
+        requestStatus(socket, 10).then((res: any) => {
+          if (!res.status) {
             appTitle.text(titles.noResponse);
             countDown.removeClass('active');
             noResponse.addClass('active');
+          } else {
+            countDown.removeClass('active');
+            appTitle.text(titles.noResponse);
+            console.log('ss');
+
+            console.log(res);
           }
         });
       };
@@ -36,8 +43,8 @@ $('document').ready(function() {
   });
 });
 
-function requestStatus(remainTime: number) {
-  return new Promise((resolve, reject) => {
+function requestStatus(socket, remainTime: number) {
+  return new Promise(resolve => {
     let remainTimeInMs = remainTime * 60;
     let interval = setInterval(() => {
       var t = remainTimeInMs-- * 1000,
@@ -52,8 +59,21 @@ function requestStatus(remainTime: number) {
         $('.dinamyc .progress').css('stroke-dasharray', `${progress} 100`);
       } else {
         clearInterval(interval);
-        resolve(false);
+        resolve(new inviteResponse(false, 'no response'));
       }
     }, 1000);
+    socket.onmessage = function(event) {
+      clearInterval(interval);
+      resolve(new inviteResponse(true, event.data));
+    };
   });
+}
+
+class inviteResponse {
+  status: boolean;
+  message: string;
+  constructor(status: boolean, message: string) {
+    this.status = status;
+    this.message = message;
+  }
 }
