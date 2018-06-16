@@ -1,11 +1,14 @@
 'use strict';
 var gulp = require('gulp'),
-  validator = require('gulp-html'),
+  htmlmin = require('gulp-htmlmin'),
   sass = require('gulp-sass'),
   shell = require('gulp-shell');
 
 gulp.task('html', function() {
-  return gulp.src('src/chat-form/index.html').pipe(validator()).pipe(gulp.dest('dist/server/chat-form/'));
+  return gulp
+    .src('src/chat-form/*.html')
+    .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(gulp.dest('dist/server/chat-form/'));
 });
 
 gulp.task('sass', function() {
