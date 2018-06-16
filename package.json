@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "run:server": "node ./dist/server/server.js",
     "run:dev-server": "GUILD_NAME=merit CHANNELS=invite-requests,test BOT_TOKEN=NDQ5ODYyMTU4OTM5ODQ4NzA1.DfK9jw.axo-z5ciXdsvY0Za7k6VL28RYjc node ./dist/server/server.js",
-    "gulp:build": "./node_modules/.bin/gulp compileTS html",
+    "gulp:build": "./node_modules/.bin/gulp compileTS && ./node_modules/.bin/gulp sass",
     "gulp:watch": "./node_modules/.bin/gulp watch"
   },
   "repository": {
