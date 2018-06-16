@@ -15,23 +15,54 @@
 <body class="chatWindow">
   <div class="chatWindow__wrap">
     <div class="chatWindow__title">
-      <p>Welcome to the Merit Inite Application!</p>
+      <p class="text"></p>
     </div>
     <div class="chatWindow__content">
-      <div class="initialMessage">
-        <div class="initialMessage__title">
-          <p>Wanna get invite right now?</p>
-        </div>
-        <div class="initialMessage__description">
-          <p>Write briefly "Why are you god actor for the Merit Network?"</p>
-          <p>
-            <em>*Message min length 150 symbols.</em>
-          </p>
-        </div>
+      <div class="content">
         <form class="form" id="sendRequest" method="POST">
+          <div class="content__title">
+            <p>Wanna get invite right now?</p>
+          </div>
+          <div class="content__description">
+            <p>Write briefly "Why are you god actor for the Merit Network?"</p>
+            <p>
+              <em>*Message min length 150 symbols.</em>
+            </p>
+          </div>
           <textarea name="message" class="form__input"></textarea>
           <button class="form__button">REQUEST NOW</button>
         </form>
+        <div class="countDown">
+          <svg viewbox="0 0 36 36" class="static">
+            <path class="progress" stroke-dasharray="100, 100" d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831" />
+          </svg>
+          <svg viewbox="0 0 36 36" class="dinamyc">
+            <path class="progress" stroke-dasharray="0, 100" d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831" />
+          </svg>
+          <div class="countDown__timer">
+            <div class="timer__item minutes">
+              05
+            </div>
+            <div class="timer__item seconds">
+              60
+            </div>
+          </div>
+        </div>
+        <div class="noResponse">
+          <div class="content__title">
+            <p>Looks like nobody from the community didnt accepted your request.</p>
+          </div>
+          <div class="content__description">
+            <p>You can post more request again, be sure that your request has good description...</p>
+            <p>
+              <em>*Please edit your message and test your luck again ;)</em>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

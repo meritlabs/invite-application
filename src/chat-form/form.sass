@@ -21,7 +21,7 @@ body.chatWindow
   color: $DODGER_BLUE
   text-align: center
   margin-bottom: 40px
-.initialMessage
+.content
   &__title,
   &__description
     text-align: center
@@ -66,3 +66,60 @@ body.chatWindow
     font-weight: 500
     color: $PORCELAIN
     padding: 15px
+.form.valid
+  display: none
+
+.countDown
+  display: none
+  position: relative
+  width: 250px
+  margin: 0px auto
+  &.active
+    display: block
+.countDown__timer
+  display: flex
+  justify-content: center
+  align-items: center
+  font-size: 50px
+  font-weight: 600
+  position: absolute
+  width: 250px
+  height: 250px
+  top: 0
+  left: 0
+.timer__item
+  color: $DODGER_BLUE
+  &:after
+    content: ":"
+  &:nth-child(2)
+    &:after
+      display: none
+.static,
+.dinamyc
+  display: block
+  width: 250px
+  height: 250px
+  border-radius: 250px
+  box-shadow: 0 0 10px rgba(0,0,0, .2)
+.static
+  .progress
+    stroke: $PORCELAIN
+    fill: none
+    stroke-width: 2.8
+    stroke-linecap: round
+    stroke-dasharray: 100 100
+.dinamyc
+  position: absolute
+  top: 0
+  left: 0
+  .progress
+    stroke: $JADE
+    fill: none
+    stroke-width: 2.8
+    stroke-linecap: round
+    stroke-dasharray: 0 100
+    transition: all .3s linear
+.noResponse
+  display: none
+  &.active
+    display: block
