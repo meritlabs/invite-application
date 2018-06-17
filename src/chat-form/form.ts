@@ -9,7 +9,8 @@ const titles = {
 const appTitle = $('.chatWindow__title .text'),
   noResponse = $('.noResponse'),
   sendingForm = $('#sendRequest'),
-  countDown = $('.countDown');
+  countDown = $('.countDown'),
+  messagesContainer = $('.responseWindow__dialog');
 
 $('document').ready(function() {
   appTitle.text(titles.welcomeTitle);
@@ -31,9 +32,7 @@ $('document').ready(function() {
           } else {
             countDown.removeClass('active');
             appTitle.text(titles.noResponse);
-            console.log('ss');
-
-            console.log(res);
+            printMessage(messagesContainer, res);
           }
         });
       };
@@ -59,7 +58,7 @@ function requestStatus(socket, remainTime: number) {
         $('.dinamyc .progress').css('stroke-dasharray', `${progress} 100`);
       } else {
         clearInterval(interval);
-        resolve(new inviteResponse(false, 'no response'));
+        resolve(new inviteResponse(false, '{author: "Merit", message: "No response"}'));
       }
     }, 1000);
     socket.onmessage = function(event) {
@@ -67,6 +66,20 @@ function requestStatus(socket, remainTime: number) {
       resolve(new inviteResponse(true, event.data));
     };
   });
+}
+
+function printMessage(container: any, object: any) {
+  let wsMessage = JSON.parse(object.message);
+  console.log(messageTemplate(wsMessage.author, wsMessage.message));
+
+  $(messageTemplate(wsMessage.author, wsMessage.message)).prependTo(container);
+}
+
+function messageTemplate(author: string, message: string) {
+  return `<div class="dialog__item">
+            <div class="item_author">${author}</div>
+            <div class="item_message">${message}</div>
+          </div>`;
 }
 
 class inviteResponse {

@@ -62,8 +62,8 @@ discordClient.on('message', (message: any) => {
 
     if (connection && connection !== null) {
       connection.discordUser = message.author;
-      connection.send(new wsMessage(discordUser, 'Joined!'));
       chatPairs.push(new chatPair(discordUser, connection.id));
+      connection.send(JSON.stringify(new wsMessage(discordUser, 'Joined!')));
     } else {
       message.author.send('OOooops, connection is not exist :(');
     }
