@@ -6,8 +6,7 @@ import * as WebSocket from 'ws';
 import * as Discord from 'discord.js';
 
 import { getGuildInfo, sendToChannels } from './services/discord.service';
-import { getConnection, checkPair } from './ws-schat/check-connection';
-import { compileInitMessage } from './ws-schat/send';
+import { getConnection, checkPair, compileInitMessage } from './services/websocket.service';
 import { chatPair } from './models/pair';
 import { wsMessage } from './models/ws-message';
 
