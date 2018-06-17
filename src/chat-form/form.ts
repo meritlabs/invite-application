@@ -23,7 +23,7 @@ $('document').ready(function() {
     e.preventDefault();
     let message = $('textarea[name=message]').val();
     if (message.length > 1) {
-      const socket: any = new WebSocket(`ws://${window.location.host}/`);
+      const socket: any = new WebSocket(`wss://${window.location.host}/`);
       console.log(socket);
 
       socket.onopen = function() {
