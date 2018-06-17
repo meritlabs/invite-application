@@ -45,12 +45,12 @@ wss.on('connection', (ws: WebSocket) => {
 discordClient.on('message', (message: any) => {
   let type: string = message.channel.type,
     _message: string = message.content,
-    isValid: any = /^send invite to: #/.test(_message),
-    discordUser: any = message.channel.recipient.username,
     connectionID: any,
     connection: any;
 
   if (type === 'dm') {
+    let isValid: any = /^send invite to: #/.test(_message);
+    let discordUser: any = message.channel.recipient.username;
     let pair = checkPair(chatPairs, discordUser);
     if (!pair && isValid) {
       connectionID = _message.toString().split('@')[0];

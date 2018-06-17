@@ -28,9 +28,6 @@ export function sendToChannels(client: any, channels: any, message: string) {
             channel.name == channelName &&
             channel.permissionsFor(guild.me).has('SEND_MESSAGES')
         );
-
-        console.log(channel);
-
         if (channel) channel.send(message);
       });
     } else {
