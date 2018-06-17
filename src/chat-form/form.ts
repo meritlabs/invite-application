@@ -23,7 +23,7 @@ $('document').ready(function() {
     e.preventDefault();
     let message = $('textarea[name=message]').val();
     if (message.length > 1) {
-      const socket: any = new WebSocket('ws://localhost:8999/');
+      const socket: any = new WebSocket(`ws://${window.location.host}/`);
       socket.onopen = function() {
         socket.send(message);
         sendingForm.removeClass('invalid').addClass('valid');
