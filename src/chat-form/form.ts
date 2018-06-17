@@ -24,6 +24,8 @@ $('document').ready(function() {
     let message = $('textarea[name=message]').val();
     if (message.length > 1) {
       const socket: any = new WebSocket(`ws://${window.location.host}/`);
+      console.log(socket);
+
       socket.onopen = function() {
         socket.send(message);
         sendingForm.removeClass('invalid').addClass('valid');
