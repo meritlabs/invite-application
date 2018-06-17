@@ -38,8 +38,7 @@ wss.on('connection', (ws: WebSocket) => {
   (ws as any).id = connectionID;
 
   ws.on('message', (message: string) => {
-    // sendToChannels(discordClient, CHANNELS, compileInitMessage(message, connectionID));
-    console.log(compileInitMessage(message, connectionID));
+    sendToChannels(discordClient, CHANNELS, compileInitMessage(message, connectionID));
   });
 });
 
