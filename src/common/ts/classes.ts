@@ -20,13 +20,3 @@ export class wsMessage {
     this.message = message;
   }
 }
-
-// Class for invite response for form messanger
-export class inviteResponse {
-  status: boolean;
-  message: string;
-  constructor(status: boolean, message: string) {
-    this.status = status;
-    this.message = message;
-  }
-}

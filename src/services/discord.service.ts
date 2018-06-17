@@ -1,5 +1,3 @@
-import { Channel } from 'discord.js';
-
 // Function for getting and checking guild
 export function getGuildInfo(app: any, client: any, GUILD_NAME: string) {
   client.on('ready', () => {
