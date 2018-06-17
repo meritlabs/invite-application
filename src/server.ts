@@ -7,8 +7,7 @@ import * as Discord from 'discord.js';
 
 import { getGuildInfo, sendToChannels } from './services/discord.service';
 import { getConnection, checkPair, compileInitMessage } from './services/websocket.service';
-import { chatPair } from './models/pair';
-import { wsMessage } from './models/ws-message';
+import { chatPair, wsMessage } from './common/ts/classes';
 
 const app = express(),
   server = http.createServer(app),
