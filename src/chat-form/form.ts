@@ -5,13 +5,16 @@ const titles = {
   waitingForInvite: 'Your messasge has been sent to community. Good luck!',
   noResponse: 'No luck :(',
   userConnected: 'Congrats! Your request accepted!',
+  joinUs: 'Join US!',
 };
 const appTitle = $('.chatWindow__title .text'),
   noResponse = $('.noResponse'),
   sendingForm = $('#sendRequest'),
   countDown = $('.countDown'),
   responseWindow = $('.responseWindow'),
-  messagesContainer = $('.responseWindow__dialog');
+  messagesContainer = $('.responseWindow__dialog'),
+  navigateToCommunitytab = $('.responseWindow__navigator .button'),
+  communityView = $('.communityView');
 
 $('document').ready(function() {
   appTitle.text(titles.welcomeTitle);
@@ -41,6 +44,12 @@ $('document').ready(function() {
       sendingForm.addClass('invalid').removeClass('valid');
     }
   });
+});
+
+navigateToCommunitytab.click(() => {
+  appTitle.text(titles.joinUs);
+  responseWindow.removeClass('active');
+  communityView.addClass('active');
 });
 
 function requestStatus(socket, remainTime: number) {

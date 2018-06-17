@@ -20,6 +20,8 @@ gulp.task('sass', function() {
 
 gulp.task('compileTS', shell.task('./node_modules/.bin/tsc'));
 
+gulp.task('cpImages', shell.task('cp -a src/common/images dist/server/chat-form/'));
+
 gulp.task('watch', function() {
   gulp.watch('src/**/*.sass', ['sass']);
   gulp.watch('src/chat-form/index.html', ['html']);
