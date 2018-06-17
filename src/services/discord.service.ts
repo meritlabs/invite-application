@@ -1,5 +1,22 @@
-import { VoiceChannel } from 'discord.js';
+import { Channel } from 'discord.js';
 
+// Function for getting and checking guild
+export function getGuildInfo(app: any, client: any, GUILD_NAME: string) {
+  client.on('ready', () => {
+    var guilds = client.guilds.array(),
+      membersCount = 0;
+    guilds.forEach((item: any) => {
+      if (item.name === GUILD_NAME) {
+        membersCount = item.memberCount;
+        app.get('/', function(req: any, res: any) {
+          res.jsonp({ channel: GUILD_NAME, members: membersCount });
+        });
+      }
+    });
+  });
+}
+
+// function for postion messages in the poblic channel(s) of the selected guild
 export function sendToChannels(client: any, channels: any, message: string) {
   client.guilds.forEach((guild: any) => {
     //for each guild the bot is in
