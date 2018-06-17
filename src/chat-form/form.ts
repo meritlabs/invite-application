@@ -10,6 +10,7 @@ const appTitle = $('.chatWindow__title .text'),
   noResponse = $('.noResponse'),
   sendingForm = $('#sendRequest'),
   countDown = $('.countDown'),
+  responseWindow = $('.responseWindow'),
   messagesContainer = $('.responseWindow__dialog');
 
 $('document').ready(function() {
@@ -32,6 +33,7 @@ $('document').ready(function() {
           } else {
             countDown.removeClass('active');
             appTitle.text(titles.userConnected);
+            responseWindow.addClass('active');
           }
         });
       };
