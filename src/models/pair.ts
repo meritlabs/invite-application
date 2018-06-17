@@ -5,4 +5,7 @@ export class chatPair {
     this.dicordUser = dicordUser;
     this.wsUser = wsUser;
   }
+  get(param) {
+    return this[param];
+  }
 }

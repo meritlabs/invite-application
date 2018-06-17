@@ -9,11 +9,5 @@ export function getConnection(wss: any, id: any) {
 }
 
 export function checkPair(chatPairs, discordUser) {
-  let result: any = null;
-  chatPairs.forEach((item: any) => {
-    if (item.discordUser === discordUser) {
-      result = item.wsUser;
-    }
-  });
-  return result;
+  return chatPairs.find((item: any) => item.get('dicordUser') === discordUser);
 }

@@ -31,8 +31,7 @@ $('document').ready(function() {
             noResponse.addClass('active');
           } else {
             countDown.removeClass('active');
-            appTitle.text(titles.noResponse);
-            printMessage(messagesContainer, res);
+            appTitle.text(titles.userConnected);
           }
         });
       };
@@ -62,17 +61,17 @@ function requestStatus(socket, remainTime: number) {
       }
     }, 1000);
     socket.onmessage = function(event) {
-      clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+      }
       resolve(new inviteResponse(true, event.data));
+      printMessage(messagesContainer, JSON.parse(event.data));
     };
   });
 }
 
 function printMessage(container: any, object: any) {
-  let wsMessage = JSON.parse(object.message);
-  console.log(messageTemplate(wsMessage.author, wsMessage.message));
-
-  $(messageTemplate(wsMessage.author, wsMessage.message)).prependTo(container);
+  $(messageTemplate(object.author, object.message)).prependTo(container);
 }
 
 function messageTemplate(author: string, message: string) {

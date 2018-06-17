@@ -50,29 +50,25 @@ discordClient.on('message', (message: any) => {
   let type: string = message.channel.type,
     _message: string = message.content,
     isValid: any = /^send invite to: #/.test(_message),
+    discordUser: any = message.channel.recipient.username,
     connectionID: any,
-    discordUser: any;
+    connection: any;
 
-  if (type === 'dm' && isValid && checkPair(chatPairs, discordUser) === null) {
-    connectionID = _message.toString().split('@')[0];
-    connectionID = connectionID.split('send invite to: ')[1];
-    discordUser = message.channel.recipient.username;
-
-    let connection = getConnection(wss, connectionID);
-
-    if (connection && connection !== null) {
-      connection.discordUser = message.author;
-      chatPairs.push(new chatPair(discordUser, connection.id));
-      connection.send(JSON.stringify(new wsMessage(discordUser, 'Joined!')));
-    } else {
-      message.author.send('OOooops, connection is not exist :(');
-    }
-  } else if (type === 'dm' && !isValid) {
-    let connection = getConnection(wss, checkPair(chatPairs, discordUser));
-    if (connection) {
-      connection.send(_message);
-    } else {
-      message.author.send('OOooops, you forgot set `to: #user-id`');
+  if (type === 'dm') {
+    let pair = checkPair(chatPairs, discordUser);
+    if (!pair && isValid) {
+      connectionID = _message.toString().split('@')[0];
+      connectionID = connectionID.split('send invite to: ')[1];
+      connection = getConnection(wss, connectionID);
+      if (connection && connection !== null) {
+        connection.discordUser = message.author;
+        chatPairs.push(new chatPair(discordUser, connection.id));
+        connection.send(JSON.stringify(new wsMessage(discordUser, 'Joined!')));
+      } else {
+        message.author.send('OOooops, connection is not exist, or wrong user ID :(');
+      }
+    } else if (!isValid && pair) {
+      getConnection(wss, pair.get('wsUser')).send(JSON.stringify(new wsMessage(discordUser, _message)));
     }
   }
 });
