@@ -13,8 +13,9 @@ const appTitle = $('.chatWindow__title .text'),
   countDown = $('.countDown'),
   responseWindow = $('.responseWindow'),
   messagesContainer = $('.responseWindow__dialog'),
-  navigateToCommunitytab = $('.responseWindow__navigator .button'),
-  communityView = $('.communityView');
+  navigateToCommunitytab = $('.responseWindow__navigator .button, .noResponse__navigator .button.community'),
+  communityView = $('.communityView'),
+  restartButton = $('.noResponse__navigator .button.try');
 
 $('document').ready(function() {
   appTitle.text(titles.welcomeTitle);
@@ -28,7 +29,7 @@ $('document').ready(function() {
         sendingForm.removeClass('invalid').addClass('valid');
         countDown.addClass('active');
         appTitle.text(titles.waitingForInvite);
-        requestStatus(socket, 10).then((res: any) => {
+        requestStatus(socket, 5).then((res: any) => {
           if (!res.status) {
             appTitle.text(titles.noResponse);
             countDown.removeClass('active');
@@ -49,7 +50,14 @@ $('document').ready(function() {
 navigateToCommunitytab.click(() => {
   appTitle.text(titles.joinUs);
   responseWindow.removeClass('active');
+  noResponse.removeClass('active');
   communityView.addClass('active');
+});
+
+restartButton.click(() => {
+  appTitle.text(titles.welcomeTitle);
+  noResponse.removeClass('active');
+  sendingForm.removeClass('valid');
 });
 
 function requestStatus(socket, remainTime: number) {
@@ -69,6 +77,9 @@ function requestStatus(socket, remainTime: number) {
       } else {
         clearInterval(interval);
         resolve(new inviteResponse(false, '{author: "Merit", message: "No response"}'));
+        $('.timer__item.minutes').text('00');
+        $('.timer__item.seconds').text('00');
+        $('.dinamyc .progress').css('stroke-dasharray', `0 100`);
       }
     }, 1000);
     socket.onmessage = function(event) {

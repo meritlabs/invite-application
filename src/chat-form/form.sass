@@ -123,6 +123,25 @@ body.chatWindow
   display: none
   &.active
     display: block
+  &__navigator
+    display: flex
+    justify-content: space-between
+    .button
+      width: calc(50% - 10px)
+      border-radius: 3px
+      font-size: 16px
+      font-weight: 500
+      padding: 15px
+      transition: all .3s linear
+      display: flex
+      align-items: center
+      justify-content: center
+      background: $JADE
+      color: $PORCELAIN
+      &.try
+        background: $PORCELAIN
+        color: $JADE
+        border: 2px solid $JADE
 .responseWindow
   display: none
   &.active
