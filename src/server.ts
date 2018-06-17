@@ -24,7 +24,7 @@ discordClient.login(BOT_TOKEN);
 
 //start server
 server.listen(process.env.PORT || 8999, () => {
-  console.log(`Server started on port ${server}`);
+  console.log(`Server started on port ${(server.address() as any).port}`);
 });
 
 let time: number = 0,
