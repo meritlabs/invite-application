@@ -10,6 +10,7 @@ import { getGuildInfo } from './discord/guild';
 import { getConnection, checkPair } from './ws-schat/check-connection';
 import { compileInitMessage } from './ws-schat/send';
 import { chatPair } from './models/pair';
+import { wsMessage } from './models/ws-message';
 
 const app = express(),
   server = http.createServer(app),
@@ -61,7 +62,7 @@ discordClient.on('message', (message: any) => {
 
     if (connection && connection !== null) {
       connection.discordUser = message.author;
-      connection.send(`@${discordUser}: Joined`);
+      connection.send(new wsMessage(discordUser, 'Joined!'));
       chatPairs.push(new chatPair(discordUser, connection.id));
     } else {
       message.author.send('OOooops, connection is not exist :(');
