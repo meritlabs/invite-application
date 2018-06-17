@@ -140,3 +140,37 @@ body.chatWindow
     font-size: 16px
     line-height: 20px
     box-sizing: border-box
+    overflow-y: auto
+  .dialog__item
+    display: flex
+    margin-bottom: 10px
+    .item
+      &__author
+        color: $DODGER_BLUE
+        font-weight: 600
+        &:after
+          content: ":"
+          margin-right: 10px
+  &__navigator
+    .button
+      width: 100%
+      display: block
+      text-align: center
+      box-shadow: 0 0 10px rgba(0,0,0, .1)
+      border-radius: 4px
+      font-size: 14px
+      font-weight: 500
+      padding: 15px
+      margin-bottom: 15px
+      transition: all .3s linear
+      &.success
+        background: $JADE
+        color: $PORCELAIN
+        opacity: .8
+      &.fail
+        opacity: .5
+        background: $IRON
+        color: $SUNSET_ORANGE
+        border: 2px solid $SUNSET_ORANGE
+      &:hover
+        opacity: .99

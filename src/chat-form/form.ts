@@ -1,7 +1,5 @@
 declare var $: any;
 
-import { inviteResponse } from './../common/ts/classes';
-
 const titles = {
   welcomeTitle: 'Welcome to the Merit Inite Application!',
   waitingForInvite: 'Your messasge has been sent to community. Good luck!',
@@ -78,7 +76,17 @@ function printMessage(container: any, object: any) {
 
 function messageTemplate(author: string, message: string) {
   return `<div class="dialog__item">
-            <div class="item_author">${author}</div>
-            <div class="item_message">${message}</div>
+            <div class="item__author">@${author}</div>
+            <div class="item__message">${message}</div>
           </div>`;
+}
+
+// Class for invite response for form messanger
+class inviteResponse {
+  status: boolean;
+  message: string;
+  constructor(status: boolean, message: string) {
+    this.status = status;
+    this.message = message;
+  }
 }
