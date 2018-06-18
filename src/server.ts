@@ -37,9 +37,7 @@ wss.on('connection', (ws: WebSocket) => {
   (ws as any).id = connectionID;
 
   ws.on('message', (message: string) => {
-    console.log(compileMessage.inviteRequest(message, connectionID));
-
-    // discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRequest(message, connectionID));
+    discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRequest(message, connectionID));
   });
 
   ws.on('close', function() {
