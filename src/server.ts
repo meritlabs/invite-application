@@ -92,6 +92,7 @@ discordClient.on('message', (message: any) => {
         message.author.send(compileMessage.getHelp());
         break;
       default:
+        message.author.send(compileMessage.defaultException());
         break;
     }
   }

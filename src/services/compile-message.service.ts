@@ -40,3 +40,10 @@ export function getHelp() {
   \n1) Connect to user client \`send invite to: #0-0000000000000@\`
   \n2)You cant connext to 2 cliets in one time, for disconnect from existing client please use command \`#stop\``;
 }
+
+export function defaultException() {
+  return `Ooops! Looks like you dont have active connections:
+  \n 1) Connected user was dissconnected
+  \n 2) You didint has connection, how to get connection \`#how-to-use\`
+  \n 3) You did something wrong, BOT commands here \`#help\``;
+}
