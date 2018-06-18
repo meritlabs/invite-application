@@ -37,9 +37,7 @@ wss.on('connection', (ws: WebSocket) => {
 
   ws.on('message', (message: string) => {
     let compiledMessage = wsService.compileInitMessage(message, connectionID);
-    console.log(compiledMessage);
-
-    // discordService.sendToChannels(discordClient, CHANNELS, compiledMessage);
+    discordService.sendToChannels(discordClient, CHANNELS, compiledMessage);
   });
 });
 
@@ -59,9 +57,11 @@ discordClient.on('message', (message: any) => {
           connection.discordUser = message.author;
           chatPairs.push(new chatPair(discordUser, connection.id));
           connection.send(welcomeMessage);
-          message.author.send(`Connected to: \`connection.id\`
+
+          message.author.send(`Connected to: \`#${connection.id}\`
           \nYou you can send your invite code to current user, sure if his welcome message was valid by Merit mentality!
           \n After invite message sendig, please close session, using \`#stop\` command\n Have questions? type \`#help\``);
+          discordService.sendToChannels(discordClient, CHANNELS, `request whit id #${connection.id} taken!`);
         } else {
           message.author.send(`Unable to connect!
           \n 1) Please check that you enter right connction id in format \`send invite to: #0-0000000000000@\`
