@@ -5,8 +5,8 @@ import * as http from 'http';
 import * as WebSocket from 'ws';
 import * as Discord from 'discord.js';
 
-import { getGuildInfo, sendToChannels } from './services/discord.service';
-import { getConnection, checkPair, compileInitMessage } from './services/websocket.service';
+import * as discordService from './services/discord.service';
+import * as wsService from './services/websocket.service';
 import { chatPair, wsMessage } from './common/ts/classes';
 
 const app = express(),
@@ -29,46 +29,58 @@ server.listen(process.env.PORT || 8999, () => {
 
 let time: number = 0,
   fakeId: number = 0,
-  connectionID: string,
   chatPairs = [];
 
 wss.on('connection', (ws: WebSocket) => {
-  time = Date.now();
-  connectionID = `#${fakeId++}-${time}`;
+  let connectionID = wsService.screateConnectionID(fakeId++);
   (ws as any).id = connectionID;
 
   ws.on('message', (message: string) => {
-    sendToChannels(discordClient, CHANNELS, compileInitMessage(message, connectionID));
+    let compiledMessage = wsService.compileInitMessage(message, connectionID);
+    console.log(compiledMessage);
+
+    // discordService.sendToChannels(discordClient, CHANNELS, compiledMessage);
   });
 });
 
 discordClient.on('message', (message: any) => {
   let type: string = message.channel.type,
-    _message: string = message.content,
-    connectionID: any,
-    connection: any;
+    _message: string = message.content;
 
   if (type === 'dm') {
-    let isValid: any = /^send invite to: #/.test(_message);
     let discordUser: any = message.channel.recipient.username;
-    let pair = checkPair(chatPairs, discordUser);
-    if (!pair && isValid) {
-      connectionID = _message.toString().split('@')[0];
-      connectionID = connectionID.split('send invite to: ')[1];
-      connection = getConnection(wss, connectionID);
-      if (connection && connection !== null) {
-        connection.discordUser = message.author;
-        chatPairs.push(new chatPair(discordUser, connection.id));
-        connection.send(JSON.stringify(new wsMessage(discordUser, 'Joined!')));
-      } else {
-        message.author.send('OOooops, connection is not exist, or wrong user ID :(');
-      }
-    } else if (!isValid && pair) {
-      getConnection(wss, pair.get('wsUser')).send(JSON.stringify(new wsMessage(discordUser, _message)));
+    let pair = wsService.checkPair(chatPairs, discordUser);
+
+    switch (discordService.detectMessageType(pair, discordService.isActivationMessage(_message), message.author.bot)) {
+      case 'join-to-pair':
+        let connection = wsService.getConnection(wss, wsService.parseConnection(_message));
+        let welcomeMessage = JSON.stringify(new wsMessage(discordUser, 'Joined!'));
+        if (connection) {
+          connection.discordUser = message.author;
+          chatPairs.push(new chatPair(discordUser, connection.id));
+          connection.send(welcomeMessage);
+        } else {
+          message.author.send('OOooops, connection is not exist, or wrong user ID :(');
+        }
+        break;
+      default:
+        break;
     }
+
+    // if (!pair && discordService.isActivationMessage(_message)) {
+
+    // } else if (!discordService.isActivationMessage(_message) && pair) {
+    //   console.log('!!!');
+
+    //   wsService.getConnection(wss, pair.get('wsUser')).send(JSON.stringify(new wsMessage(discordUser, _message)));
+    // } else if (discordService.isActivationMessage(_message) && pair) {
+    //   console.log(pair);
+
+    //   message.author.send(`OOooops, you already have connected to site client ${pair.get('wsUser')}`);
+    // }
   }
 });
 
-getGuildInfo(app, discordClient, GUILD_NAME);
+discordService.getGuildInfo(app, discordClient, GUILD_NAME);
 
 app.use('/get-invite', express.static('./dist/server/chat-form'));

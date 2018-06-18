@@ -35,3 +35,14 @@ export function sendToChannels(client: any, channels: any, message: string) {
     }
   });
 }
+
+// Function for defining is is activation message
+export function isActivationMessage(message) {
+  return /^send invite to: #/.test(message);
+}
+
+export function detectMessageType(pair: any, isActivationMessage: any, isBot: boolean) {
+  let result: string;
+  if (!pair && !isBot && isActivationMessage) result = 'join-to-pair';
+  return result;
+}
