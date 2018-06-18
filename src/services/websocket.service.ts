@@ -10,8 +10,8 @@ export function getConnection(wss: any, id: any) {
 }
 
 // function for checking is pair exist
-export function checkPair(chatPairs, discordUser) {
-  return chatPairs.find((item: any) => item.get('dicordUser') === discordUser);
+export function checkPair(chatPairs, user) {
+  return chatPairs.find((item: any) => item.get('dicordUser') === user || item.get('wsUser') === user);
 }
 
 // Function for executing connected client ID

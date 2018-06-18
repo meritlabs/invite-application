@@ -9,7 +9,6 @@ import * as discordService from './services/discord.service';
 import * as wsService from './services/websocket.service';
 import * as compileMessage from './services/compile-message.service';
 import { chatPair, wsMessage } from './common/ts/classes';
-import { getHashes } from 'crypto';
 
 const app = express(),
   server = http.createServer(app),
@@ -38,7 +37,16 @@ wss.on('connection', (ws: WebSocket) => {
   (ws as any).id = connectionID;
 
   ws.on('message', (message: string) => {
-    discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRuquest(message, connectionID));
+    console.log(compileMessage.inviteRuquest(message, connectionID));
+
+    // discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRuquest(message, connectionID));
+  });
+
+  ws.on('close', function() {
+    let index = chatPairs.indexOf(wsService.checkPair(chatPairs, connectionID));
+    if (index > -1) {
+      chatPairs.splice(index, 1);
+    }
   });
 });
 
@@ -53,7 +61,7 @@ discordClient.on('message', (message: any) => {
     switch (discordService.detectMessageType(pair, discordService.detectCommand(_message), message.author.bot)) {
       case 'join-to-pair':
         let connection = wsService.getConnection(wss, wsService.parseConnection(_message));
-        if (connection) {
+        if (connection && connection !== null) {
           connection.discordUser = message.author;
           chatPairs.push(new chatPair(discordUser, connection.id));
           connection.send(JSON.stringify(new wsMessage(discordUser, 'Joined!')));
