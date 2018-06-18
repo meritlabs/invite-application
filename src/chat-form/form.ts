@@ -22,9 +22,10 @@ $('document').ready(function() {
   sendingForm.submit(function(e) {
     e.preventDefault();
     let message = $('textarea[name=message]').val();
+    let host = `wss://${window.location.host}/`;
+    if (/^localhost/.test(window.location.host)) host = `ws://${window.location.host}/`;
     if (message.length > 1) {
-      const socket: any = new WebSocket(`wss://${window.location.host}/`);
-      console.log(socket);
+      let socket: any = new WebSocket(host);
 
       socket.onopen = function() {
         socket.send(message);
