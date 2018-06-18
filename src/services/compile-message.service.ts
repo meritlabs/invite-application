@@ -1,16 +1,21 @@
 // function for welcome message compilation
 export function inviteRequest(message: string, connectionID: string) {
-  return `Hey All!\nNew user from the site \`${connectionID}\` is looking for invite!
-  \nIf you want to send this invite please DM current bot with init message: \`send invite to: ${connectionID}@\`.
-  \n\n *USER'S MESSAGE:* \n\n\`\`\`\n${message}\`\`\`\n\n
-  \n **CONFUSED?**
-  \n type \`#how-to-use\` here or in the DM to the bot.`;
+  return `Hey Invite Gang!
+  \nNew user \`${connectionID}\` is looking for invite!
+  \nIf you want to send this invite please DM current bot with init message:
+  \n \`send invite to: ${connectionID}@\`.
+  \n**USER'S MESSAGE:**
+   \n\`\`\`\n${message}\`\`\`
+  \n*CONFUSED?*
+  \ntype DM to the bot \`#how-to-use\`.`;
 }
 
 export function connectedToClient(id: string) {
   return `Connected to: \`${id}\`
-  \nYou you can send your invite code to current user, sure if his welcome message was valid by Merit mentality!
-  \n After invite message sending, please close session, using \`#stop\` command\n Have questions? type \`#help\``;
+  \n*Looks like you going to share your invite
+  \nIf you dont want share invite, send \`#stop\`
+  \nNeed help? send \`#how-to-use\`*
+  \n**If everything is OK, type you invite token below**`;
 }
 
 export function unableToConnect() {

@@ -92,8 +92,10 @@ discordClient.on('message', (message: any) => {
       case 'how-to-use':
         message.author.send(compileMessage.howToUse());
         break;
-      default:
+      case 'default-exception':
         message.author.send(compileMessage.defaultException());
+        break;
+      default:
         break;
     }
   }

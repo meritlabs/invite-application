@@ -53,5 +53,7 @@ export function detectMessageType(pair: any, command: any, isBot: boolean) {
   if (pair && command === 'activate' && !isBot) result = 'already-in-pair';
   if (command === 'deactivate' && !isBot) result = 'destroy-pair';
   if (command === 'help' && !isBot) result = 'bot-help';
+  if (command === 'how-to-use' && !isBot) result = 'how-to-use';
+  if (!pair && command === 'regular' && !isBot) result = 'default-exception';
   return result;
 }
