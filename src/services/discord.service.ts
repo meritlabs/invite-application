@@ -37,12 +37,18 @@ export function sendToChannels(client: any, channels: any, message: string) {
 }
 
 // Function for defining is is activation message
-export function isActivationMessage(message) {
-  return /^send invite to: #/.test(message);
+export function detectCommand(message) {
+  let type: string = 'regular';
+  if (/^send invite to: #/.test(message)) return (type = 'activate');
+  if (/^#stop/.test(message)) return (type = 'deactivate');
+  return type;
 }
 
-export function detectMessageType(pair: any, isActivationMessage: any, isBot: boolean) {
+export function detectMessageType(pair: any, command: any, isBot: boolean) {
   let result: string;
-  if (!pair && !isBot && isActivationMessage) result = 'join-to-pair';
+  if (!pair && command === 'activate' && !isBot) result = 'join-to-pair';
+  if (pair && command === 'regular' && !isBot) result = 'regular-message-to-client';
+  if (pair && command === 'activate' && !isBot) result = 'already-in-pair';
+  if (pair && command === 'deactivate' && !isBot) result = 'destroy-pair';
   return result;
 }

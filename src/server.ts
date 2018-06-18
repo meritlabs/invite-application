@@ -51,7 +51,7 @@ discordClient.on('message', (message: any) => {
     let discordUser: any = message.channel.recipient.username;
     let pair = wsService.checkPair(chatPairs, discordUser);
 
-    switch (discordService.detectMessageType(pair, discordService.isActivationMessage(_message), message.author.bot)) {
+    switch (discordService.detectMessageType(pair, discordService.detectCommand(_message), message.author.bot)) {
       case 'join-to-pair':
         let connection = wsService.getConnection(wss, wsService.parseConnection(_message));
         let welcomeMessage = JSON.stringify(new wsMessage(discordUser, 'Joined!'));
@@ -63,21 +63,25 @@ discordClient.on('message', (message: any) => {
           message.author.send('OOooops, connection is not exist, or wrong user ID :(');
         }
         break;
+      case 'regular-message-to-client':
+        wsService.getConnection(wss, pair.get('wsUser')).send(JSON.stringify(new wsMessage(discordUser, _message)));
+        break;
+      case 'already-in-pair':
+        let inPairMessage = `OOooops, you already have connected to site client \`${pair.get(
+          'wsUser'
+        )}\`\n Please type \`#stop\` if you wanna break previous connection.`;
+        message.author.send(inPairMessage);
+        break;
+      case 'destroy-pair':
+        let index = chatPairs.indexOf(pair);
+        if (index > -1) {
+          chatPairs.splice(index, 1);
+          message.author.send('Pair destroyed, now you can connect to new clients!');
+        }
+        break;
       default:
         break;
     }
-
-    // if (!pair && discordService.isActivationMessage(_message)) {
-
-    // } else if (!discordService.isActivationMessage(_message) && pair) {
-    //   console.log('!!!');
-
-    //   wsService.getConnection(wss, pair.get('wsUser')).send(JSON.stringify(new wsMessage(discordUser, _message)));
-    // } else if (discordService.isActivationMessage(_message) && pair) {
-    //   console.log(pair);
-
-    //   message.author.send(`OOooops, you already have connected to site client ${pair.get('wsUser')}`);
-    // }
   }
 });
 
