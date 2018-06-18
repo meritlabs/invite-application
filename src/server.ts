@@ -70,7 +70,7 @@ discordClient.on('message', (message: any) => {
         wsService.getConnection(wss, pair.get('wsUser')).send(JSON.stringify(new wsMessage(discordUser, _message)));
         break;
       case 'already-in-pair':
-        let inPairMessage = `OOooops, you already have connected to site client \`${pair.get(
+        let inPairMessage = `OOooops, you already connected to site client \`${pair.get(
           'wsUser'
         )}\`\n Please type \`#stop\` if you wanna break previous connection.`;
         message.author.send(inPairMessage);
