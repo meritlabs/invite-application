@@ -63,7 +63,10 @@ discordClient.on('message', (message: any) => {
           \nYou you can send your invite code to current user, sure if his welcome message was valid by Merit mentality!
           \n After invite message sendig, please close session, using \`#stop\` command\n Have questions? type \`#help\``);
         } else {
-          message.author.send('OOooops, connection is not exist, or wrong user ID :(');
+          message.author.send(`Unable to connect!
+          \n 1) Please check that you enter right connction id in format \`send invite to: #0-0000000000000@\`
+          \n 2) Somebody from the community already connected to this clien.
+          \n 3) Connection expired (closed).`);
         }
         break;
       case 'regular-message-to-client':
