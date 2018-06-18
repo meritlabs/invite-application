@@ -59,6 +59,9 @@ discordClient.on('message', (message: any) => {
           connection.discordUser = message.author;
           chatPairs.push(new chatPair(discordUser, connection.id));
           connection.send(welcomeMessage);
+          message.author.send(`Connected to: \`connection.id\`
+          \nYou you can send your invite code to current user, sure if his welcome message was valid by Merit mentality!
+          \n After invite message sendig, please close session, using \`#stop\` command\n Have questions? type \`#help\``);
         } else {
           message.author.send('OOooops, connection is not exist, or wrong user ID :(');
         }
