@@ -41,6 +41,7 @@ export function detectCommand(message) {
   let type: string = 'regular';
   if (/^send invite to: #/.test(message)) return (type = 'activate');
   if (/^#stop/.test(message)) return (type = 'deactivate');
+  if (/^#help/.test(message)) return (type = 'help');
   return type;
 }
 
@@ -49,6 +50,7 @@ export function detectMessageType(pair: any, command: any, isBot: boolean) {
   if (!pair && command === 'activate' && !isBot) result = 'join-to-pair';
   if (pair && command === 'regular' && !isBot) result = 'regular-message-to-client';
   if (pair && command === 'activate' && !isBot) result = 'already-in-pair';
-  if (pair && command === 'deactivate' && !isBot) result = 'destroy-pair';
+  if (command === 'deactivate' && !isBot) result = 'destroy-pair';
+  if (command === 'help' && !isBot) result = 'bot-help';
   return result;
 }

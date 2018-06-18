@@ -73,11 +73,22 @@ discordClient.on('message', (message: any) => {
         message.author.send(inPairMessage);
         break;
       case 'destroy-pair':
-        let index = chatPairs.indexOf(pair);
-        if (index > -1) {
-          chatPairs.splice(index, 1);
-          message.author.send('Pair destroyed, now you can connect to new clients!');
+        if (pair) {
+          let index = chatPairs.indexOf(pair);
+          if (index > -1) {
+            chatPairs.splice(index, 1);
+            message.author.send('Pair destroyed, now you can connect to new clients!');
+          }
+        } else {
+          message.author.send('You dont have active connection');
         }
+        break;
+      case 'bot-help':
+        let helpMessage = `***MERI BOT**\n*Merit bot aims on connect new users between existing community.
+        \nYou can share your ivite code via via DM BOT MESSAGES, using next list of the commands:*
+        \n1) Connect to user client \`send invite to: #0-0000000000000@\`
+        \n2)You cant connext to 2 cliets in one time, for disconnect from existing client please use command \`#stop\``;
+        message.author.send(helpMessage);
         break;
       default:
         break;
