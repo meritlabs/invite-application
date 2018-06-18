@@ -11,7 +11,7 @@ export function getConnection(wss: any, id: any) {
 
 // function for checking is pair exist
 export function checkPair(chatPairs, user) {
-  return chatPairs.find((item: any) => item.get('dicordUser') === user || item.get('wsUser') === user);
+  return chatPairs.find((item: any) => item.get('discordUser') === user || item.get('wsUser') === user);
 }
 
 // Function for executing connected client ID
@@ -21,6 +21,6 @@ export function parseConnection(message: string) {
 }
 
 // Function for creating connected client ID
-export function screateConnectionID(fakeId: number) {
+export function createConnectionID(fakeId: number) {
   return `#${fakeId}-${Date.now()}`;
 }

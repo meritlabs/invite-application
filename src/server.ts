@@ -33,13 +33,13 @@ let time: number = 0,
   chatPairs = [];
 
 wss.on('connection', (ws: WebSocket) => {
-  let connectionID = wsService.screateConnectionID(fakeId++);
+  let connectionID = wsService.createConnectionID(fakeId++);
   (ws as any).id = connectionID;
 
   ws.on('message', (message: string) => {
-    console.log(compileMessage.inviteRuquest(message, connectionID));
+    console.log(compileMessage.inviteRequest(message, connectionID));
 
-    // discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRuquest(message, connectionID));
+    // discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRequest(message, connectionID));
   });
 
   ws.on('close', function() {
@@ -90,6 +90,9 @@ discordClient.on('message', (message: any) => {
         break;
       case 'bot-help':
         message.author.send(compileMessage.getHelp());
+        break;
+      case 'how-to-use':
+        message.author.send(compileMessage.howToUse());
         break;
       default:
         message.author.send(compileMessage.defaultException());

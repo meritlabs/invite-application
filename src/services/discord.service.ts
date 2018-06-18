@@ -14,7 +14,7 @@ export function getGuildInfo(app: any, client: any, GUILD_NAME: string) {
   });
 }
 
-// function for postion messages in the poblic channel(s) of the selected guild
+// function for position messages in the public channel(s) of the selected guild
 export function sendToChannels(client: any, channels: any, message: string) {
   client.guilds.forEach((guild: any) => {
     //for each guild the bot is in
@@ -42,6 +42,7 @@ export function detectCommand(message) {
   if (/^send invite to: #/.test(message)) return (type = 'activate');
   if (/^#stop/.test(message)) return (type = 'deactivate');
   if (/^#help/.test(message)) return (type = 'help');
+  if (/^#how-to-use/.test(message)) return (type = 'how-to-use');
   return type;
 }
 

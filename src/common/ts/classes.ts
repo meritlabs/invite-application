@@ -1,9 +1,9 @@
 // Class of the chat pair
 export class chatPair {
-  dicordUser: string;
+  discordUser: string;
   wsUser: string;
-  constructor(dicordUser: string, wsUser: string) {
-    this.dicordUser = dicordUser;
+  constructor(discordUser: string, wsUser: string) {
+    this.discordUser = discordUser;
     this.wsUser = wsUser;
   }
   get(param) {

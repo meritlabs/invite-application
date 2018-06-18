@@ -1,8 +1,8 @@
 declare var $: any;
 
 const titles = {
-  welcomeTitle: 'Welcome to the Merit Inite Application!',
-  waitingForInvite: 'Your messasge has been sent to community. Good luck!',
+  welcomeTitle: 'Welcome to the Merit Invite Application!',
+  waitingForInvite: 'Your message has been sent to community. Good luck!',
   noResponse: 'No luck :(',
   userConnected: 'Congrats! Your request accepted!',
   joinUs: 'Join US!',
@@ -76,13 +76,13 @@ function requestStatus(socket, remainTime: number) {
       if (t > 0) {
         $('.timer__item.minutes').text(minutes);
         $('.timer__item.seconds').text(seconds);
-        $('.dinamyc .progress').css('stroke-dasharray', `${progress} 100`);
+        $('.dynamic .progress').css('stroke-dasharray', `${progress} 100`);
       } else {
         clearInterval(interval);
         resolve(new inviteResponse(false, '{author: "Merit", message: "No response"}'));
         $('.timer__item.minutes').text('00');
         $('.timer__item.seconds').text('00');
-        $('.dinamyc .progress').css('stroke-dasharray', `0 100`);
+        $('.dynamic .progress').css('stroke-dasharray', `0 100`);
       }
     }, 1000);
     socket.onmessage = function(event) {
@@ -106,7 +106,7 @@ function messageTemplate(author: string, message: string) {
           </div>`;
 }
 
-// Class for invite response for form messanger
+// Class for invite response for form messenger
 class inviteResponse {
   status: boolean;
   message: string;
