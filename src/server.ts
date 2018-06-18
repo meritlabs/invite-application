@@ -7,6 +7,7 @@ import * as Discord from 'discord.js';
 
 import * as discordService from './services/discord.service';
 import * as wsService from './services/websocket.service';
+import * as compileMessage from './services/compile-message.service';
 import { chatPair, wsMessage } from './common/ts/classes';
 
 const app = express(),
@@ -36,7 +37,7 @@ wss.on('connection', (ws: WebSocket) => {
   (ws as any).id = connectionID;
 
   ws.on('message', (message: string) => {
-    let compiledMessage = wsService.compileInitMessage(message, connectionID);
+    let compiledMessage = compileMessage.inviteRuquest(message, connectionID);
     discordService.sendToChannels(discordClient, CHANNELS, compiledMessage);
   });
 });
