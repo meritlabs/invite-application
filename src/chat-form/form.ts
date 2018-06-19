@@ -90,12 +90,12 @@ function requestStatus(socket, remainTime: number) {
         clearInterval(interval);
       }
       resolve(new inviteResponse(true, event.data));
-      printMessage(messagesContainer, JSON.parse(event.data));
+      defineMessage(messagesContainer, JSON.parse(event.data));
     };
   });
 }
 
-function printMessage(container: any, object: any) {
+function defineMessage(container: any, object: any) {
   $(messageTemplate(object.author, object.message)).appendTo(container);
 }
 

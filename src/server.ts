@@ -73,13 +73,19 @@ discordClient.on('message', (message: any) => {
       case 'regular-message-to-client':
         mws.validateInviteCode(_message).then(res => {
           let response = res as any;
+
+          console.log(response);
+
           if (response.status === 'valid') {
             wsService
               .getConnection(wss, pair.get('wsUser'))
               .send(JSON.stringify(new wsMessage('invite code', response.address)));
           }
-          if (response.status === 'not valid') {
+          if (response.status === 'not exist') {
             message.author.send('Your code invalid try one more time!');
+          }
+          if (response.status === 'not valid') {
+            message.author.send('Entered invite code not valid or not exist!');
           }
           if (response.status === 'not beaconed') {
             message.author.send('Your code not beaconed!, sorry you cant share invite :(');
