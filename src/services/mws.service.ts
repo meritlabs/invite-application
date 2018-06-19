@@ -6,8 +6,6 @@ export function validateInviteCode(invite) {
       .get(`https://mws.merit.me/bws/api/v1/addresses/${invite}/validate`, resp => {
         resp.on('data', chunk => {
           let result = JSON.parse(chunk);
-          console.log(result);
-
           if (result.isValid && result.isBeaconed && result.isConfirmed)
             resolve({ address: result.address, status: 'valid' });
           if (!result.isValid && result.isBeaconed && result.isConfirmed)

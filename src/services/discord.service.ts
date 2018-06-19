@@ -15,9 +15,8 @@ export function getGuildInfo(app: any, client: any, GUILD_NAME: string) {
 }
 
 // function for position messages in the public channel(s) of the selected guild
-export function sendToChannels(client: any, channels: any, message: string) {
-  client.guilds.forEach((guild: any) => {
-    //for each guild the bot is in
+export async function sendToChannels(client: any, channels: any, message: string) {
+  return client.guilds.forEach((guild: any) => {
     let sendToChannels: any = channels.split(',');
 
     if (sendToChannels.length > 0) {
@@ -36,7 +35,7 @@ export function sendToChannels(client: any, channels: any, message: string) {
   });
 }
 
-// Function for defining is is activation message
+// Function for defining BOT commands
 export function detectCommand(message) {
   let type: string = 'regular';
   if (/^send invite to: #/.test(message)) return (type = 'activate');
@@ -46,6 +45,7 @@ export function detectCommand(message) {
   return type;
 }
 
+// Function for detecting message type
 export function detectMessageType(pair: any, command: any, isBot: boolean) {
   let result: string;
   if (!pair && command === 'activate' && !isBot) result = 'join-to-pair';

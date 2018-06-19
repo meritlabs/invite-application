@@ -1,4 +1,5 @@
-// function for welcome message compilation
+// * Function for Messages compilation
+
 export function inviteRequest(message: string, connectionID: string) {
   return `Hey Invite Gang!
   \nNew user \`${connectionID}\` is looking for invite!
