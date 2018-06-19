@@ -18,7 +18,8 @@ const app = express(),
   GUILD_NAME = process.env.GUILD_NAME || '',
   CHANNELS = process.env.CHANNELS || '',
   BOT_TOKEN = process.env.BOT_TOKEN || '',
-  APP_SLUG = process.env.BOT_TOKEN || '/get-invite';
+  APP_SLUG = process.env.APP_SLUG || '/get-invite',
+  PORT = process.env.PORT || 8999;
 
 //initialize the WebSocket server instance
 const wss = new WebSocket.Server({ server });
@@ -27,7 +28,7 @@ const wss = new WebSocket.Server({ server });
 discordClient.login(BOT_TOKEN);
 
 //start server
-server.listen(process.env.PORT || 8999, () => {
+server.listen(PORT, () => {
   console.log(`Server started on port ${(server.address() as any).port}`);
 });
 
@@ -35,7 +36,7 @@ server.listen(process.env.PORT || 8999, () => {
 discordService.getGuildInfo(app, discordClient, GUILD_NAME);
 
 // Serve invite application
-app.use(process.env.APP_SLUG, express.static('./dist/server/chat-form'));
+app.use(APP_SLUG, express.static('./dist/server/chat-form'));
 
 let time: number = 0,
   fakeId: number = 0,
