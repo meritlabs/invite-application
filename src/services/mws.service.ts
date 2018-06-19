@@ -1,3 +1,4 @@
+import { validationStatuses } from './../common/ts/const';
 const https = require('https');
 
 export function validateInviteCode(invite) {
@@ -7,15 +8,15 @@ export function validateInviteCode(invite) {
         resp.on('data', chunk => {
           let result = JSON.parse(chunk);
           if (result.isValid && result.isBeaconed && result.isConfirmed)
-            resolve({ address: result.address, status: 'valid' });
+            resolve({ address: result.address, status: validationStatuses.valid });
           if (!result.isValid && result.isBeaconed && result.isConfirmed)
-            resolve({ address: result.address, status: 'not valid' });
+            resolve({ address: result.address, status: validationStatuses.notValid });
           if (result.isValid && !result.isBeaconed && result.isConfirmed)
-            resolve({ address: result.address, status: 'not beaconed' });
+            resolve({ address: result.address, status: validationStatuses.notBeaconed });
           if (result.isValid && result.isBeaconed && !result.isConfirmed)
-            resolve({ address: result.address, status: 'not confirmed' });
+            resolve({ address: result.address, status: validationStatuses.notConfirmed });
           if (!result.isValid && !result.isBeaconed && !result.isConfirmed)
-            resolve({ address: result.address, status: 'not exist' });
+            resolve({ address: result.address, status: validationStatuses.notExist });
         });
       })
       .on('error', err => {

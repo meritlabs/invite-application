@@ -10,6 +10,7 @@ import * as wsService from './services/websocket.service';
 import * as compileMessage from './services/compile-message.service';
 import * as mws from './services/mws.service';
 import { chatPair, wsMessage } from './common/ts/classes';
+import { messageTypes, validationStatuses } from './common/ts/const';
 
 const app = express(),
   server = http.createServer(app),
@@ -56,22 +57,22 @@ wss.on('connection', (ws: WebSocket) => {
 });
 
 discordClient.on('message', (message: any) => {
-  let type: string = message.channel.type,
-    _message: string = message.content;
+  let type: string = message.channel.type;
+  let _message: string = message.content;
+  let isBot = message.author.bot;
 
-  if (type === 'dm') {
+  if (type === 'dm' && !isBot) {
     let discordUser: any = message.channel.recipient.username;
     let pair = wsService.checkPair(chatPairs, discordUser);
     let isCommand = discordService.detectCommand(_message);
-    let isBot = message.author.bot;
-    let messageType = discordService.detectMessageType(pair, isCommand, isBot);
+    let detectedMessageType = discordService.detectMessageType(pair, isCommand, isBot);
 
     console.log('START___DEBUG___PAIR___');
     console.log(pair);
     console.log('END___DEBUG___PAIR___');
 
-    switch (messageType) {
-      case 'join-to-pair':
+    switch (detectedMessageType) {
+      case messageTypes.joinToPair:
         let connectionID = wsService.parseConnection(_message);
         let connection = wsService.getConnection(wss, connectionID);
         let unableToConnectMessage = compileMessage.unableToConnect();
@@ -89,35 +90,39 @@ discordClient.on('message', (message: any) => {
           message.author.send(successfulConnectedToClientMessage); // Reply to author that he's successfully connected to the application client
           discordService.sendToChannels(discordClient, CHANNELS, clientTakenMessage); // Notify community that somebody from the community already connected to the existing application client
         } else {
-          // message.author.send(unableToConnectMessage); // Notify Discord user that He's can't connect to the current Application client
+          message.author.send(unableToConnectMessage); // Notify Discord user that He's can't connect to the current Application client
         }
         break;
-      case 'regular-message-to-client':
+      case messageTypes.regularMessage:
         mws.validateInviteCode(_message).then(res => {
           let response: any = res;
           let validationStatus = response.status;
           let connection = wsService.getConnection(wss, pair.get('wsUser'));
           let inviteCodeMessage = JSON.stringify(new wsMessage('invite code', response.address));
-          let invalidInviteCodeMessage = 'Your code invalid try one more time!';
-          let notExistInviteCodeMessage = 'Entered invite code not valid or not exist!';
-          let notBeaconedInviteCodeMessage = 'Your code not beaconed!, sorry you cant share invite :(';
-          let notConfirmedInviteCodeMessage = 'Your code not confirmed!, sorry you cant share invite :(';
-          let somethingWentWrongMessage = 'Something went wrong please notify `@coreteam`';
+          let invalidInviteCodeMessage = compileMessage.invalidInviteCodeMessage();
+          let notExistInviteCodeMessage = compileMessage.notExistInviteCodeMessage();
+          let notBeaconedInviteCodeMessage = compileMessage.notBeaconedInviteCodeMessage();
+          let notConfirmedInviteCodeMessage = compileMessage.notConfirmedInviteCodeMessage();
+          let somethingWentWrongMessage = compileMessage.somethingWentWrongMessage();
 
           switch (validationStatus) {
-            case 'valid':
-              connection.send(inviteCodeMessage); // Send invite code to the current application client
+            case validationStatuses.valid:
+              (async () => {
+                connection.send(inviteCodeMessage); // Send invite code to the current application client
+                message.author.send(compileMessage.inviteShared(pair.discordUser));
+                chatPairs = (await wsService.destroyPair(chatPairs, pair.discordUser)) as any[];
+              })();
               break;
-            case 'not exist':
+            case validationStatuses.notExist:
               message.author.send(invalidInviteCodeMessage); // Notify Discord user that He's entered not exist alias / address
               break;
-            case 'not valid':
+            case validationStatuses.notValid:
               message.author.send(notExistInviteCodeMessage); // Notify Discord user that He's entered alias / address not valid
               break;
-            case 'not beaconed':
+            case validationStatuses.notBeaconed:
               message.author.send(notBeaconedInviteCodeMessage); // Notify Discord user that He's entered alias / address not beaconed
               break;
-            case 'not confirmed':
+            case validationStatuses.notConfirmed:
               message.author.send(notConfirmedInviteCodeMessage); // Notify Discord user that He's entered alias / address not confirmed
               break;
             default:
@@ -126,10 +131,10 @@ discordClient.on('message', (message: any) => {
           }
         });
         break;
-      case 'already-in-pair':
+      case messageTypes.inPair:
         message.author.send(compileMessage.alreadyInPair(pair.get('wsUser')));
         break;
-      case 'destroy-pair':
+      case messageTypes.destroyPair:
         if (pair) {
           (async () => {
             chatPairs = (await wsService.destroyPair(chatPairs, pair.discordUser)) as any[];
@@ -139,13 +144,13 @@ discordClient.on('message', (message: any) => {
           message.author.send(compileMessage.noActiveConnections());
         }
         break;
-      case 'bot-help':
+      case messageTypes.botHelp:
         message.author.send(compileMessage.getHelp()); // Post to Discord user help message
         break;
-      case 'how-to-use':
+      case messageTypes.howToUse:
         message.author.send(compileMessage.howToUse()); // Post to Discord user how to use message
         break;
-      case 'default-exception':
+      case messageTypes.default:
         message.author.send(compileMessage.defaultException()); // Post to Discord user default exception
         break;
       default:

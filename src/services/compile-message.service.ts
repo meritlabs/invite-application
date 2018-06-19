@@ -68,3 +68,29 @@ export function howToUse() {
   \n 5) When invite code is shared, please type \`#stop\` to finish current session
   \n 6) Remember, you can have just one session in one time.`;
 }
+
+export function inviteShared(user) {
+  return `Congrats ${user}, your invite successfully shared!
+  \nNow you can back to the *#invite channel* and share your invite again!
+  \nGood luck!`;
+}
+
+export function invalidInviteCodeMessage() {
+  return 'Your code invalid try one more time!';
+}
+
+export function notExistInviteCodeMessage() {
+  return 'Entered invite code not valid or not exist!';
+}
+
+export function notBeaconedInviteCodeMessage() {
+  return 'Your code not beaconed!, sorry you cant share invite :(';
+}
+
+export function notConfirmedInviteCodeMessage() {
+  return 'Your code not confirmed!, sorry you cant share invite :(';
+}
+
+export function somethingWentWrongMessage() {
+  return 'Something went wrong please notify `@coreteam`';
+}

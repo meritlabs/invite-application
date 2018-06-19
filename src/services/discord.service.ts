@@ -1,3 +1,5 @@
+import { messageTypes, commands } from './../common/ts/const';
+
 // Function for getting and checking guild
 export function getGuildInfo(app: any, client: any, GUILD_NAME: string) {
   client.on('ready', () => {
@@ -37,23 +39,23 @@ export async function sendToChannels(client: any, channels: any, message: string
 
 // Function for defining BOT commands
 export function detectCommand(message) {
-  let type: string = 'regular';
-  if (/^send invite to: #/.test(message)) return (type = 'activate');
-  if (/^#stop/.test(message)) return (type = 'deactivate');
-  if (/^#help/.test(message)) return (type = 'help');
-  if (/^#how-to-use/.test(message)) return (type = 'how-to-use');
+  let type: string = commands.regular;
+  if (/^send invite to: #/.test(message)) return (type = commands.activate);
+  if (/^#stop/.test(message)) return (type = commands.deactivate);
+  if (/^#help/.test(message)) return (type = commands.help);
+  if (/^#how-to-use/.test(message)) return (type = commands.howToUse);
   return type;
 }
 
 // Function for detecting message type
 export function detectMessageType(pair: any, command: any, isBot: boolean) {
   let result: string;
-  if (!pair && command === 'activate' && !isBot) result = 'join-to-pair';
-  if (pair && command === 'regular' && !isBot) result = 'regular-message-to-client';
-  if (pair && command === 'activate' && !isBot) result = 'already-in-pair';
-  if (command === 'deactivate' && !isBot) result = 'destroy-pair';
-  if (command === 'help' && !isBot) result = 'bot-help';
-  if (command === 'how-to-use' && !isBot) result = 'how-to-use';
-  if (!pair && command === 'regular' && !isBot) result = 'default-exception';
+  if (!pair && command === commands.activate && !isBot) result = messageTypes.joinToPair;
+  if (pair && command === commands.regular && !isBot) result = messageTypes.regularMessage;
+  if (pair && command === commands.activate && !isBot) result = messageTypes.inPair;
+  if (command === commands.deactivate && !isBot) result = messageTypes.destroyPair;
+  if (command === commands.help && !isBot) result = messageTypes.botHelp;
+  if (command === commands.howToUse && !isBot) result = messageTypes.howToUse;
+  if (!pair && command === commands.regular && !isBot) result = messageTypes.default;
   return result;
 }
