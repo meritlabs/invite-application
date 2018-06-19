@@ -10,14 +10,15 @@ import * as wsService from './services/websocket.service';
 import * as compileMessage from './services/compile-message.service';
 import * as mws from './services/mws.service';
 import { chatPair, wsMessage } from './common/ts/classes';
-import { messageTypes, validationStatuses } from './common/ts/const';
+import { messageTypes, validationStatuses, strings } from './common/ts/const';
 
 const app = express(),
   server = http.createServer(app),
   discordClient = new Discord.Client(),
   GUILD_NAME = process.env.GUILD_NAME || '',
   CHANNELS = process.env.CHANNELS || '',
-  BOT_TOKEN = process.env.BOT_TOKEN || '';
+  BOT_TOKEN = process.env.BOT_TOKEN || '',
+  APP_SLUG = process.env.BOT_TOKEN || '/get-invite';
 
 //initialize the WebSocket server instance
 const wss = new WebSocket.Server({ server });
@@ -34,7 +35,7 @@ server.listen(process.env.PORT || 8999, () => {
 discordService.getGuildInfo(app, discordClient, GUILD_NAME);
 
 // Serve invite application
-app.use('/get-invite', express.static('./dist/server/chat-form'));
+app.use(process.env.APP_SLUG, express.static('./dist/server/chat-form'));
 
 let time: number = 0,
   fakeId: number = 0,
@@ -81,7 +82,7 @@ discordClient.on('message', (message: any) => {
           connection.discordUser = message.author; //attach Discord user to the new connection pair
 
           let newPair = new chatPair(discordUser, connection.id);
-          let discordUserJoinedMessage = JSON.stringify(new wsMessage(discordUser, 'joined'));
+          let discordUserJoinedMessage = JSON.stringify(new wsMessage(discordUser, strings.joined));
           let successfulConnectedToClientMessage = compileMessage.connectedToClient(connection.id);
           let clientTakenMessage = compileMessage.requestTaken(connection.id);
 
@@ -98,7 +99,7 @@ discordClient.on('message', (message: any) => {
           let response: any = res;
           let validationStatus = response.status;
           let connection = wsService.getConnection(wss, pair.get('wsUser'));
-          let inviteCodeMessage = JSON.stringify(new wsMessage('invite code', response.address));
+          let inviteCodeMessage = JSON.stringify(new wsMessage(strings.inviteCode, response.address));
           let invalidInviteCodeMessage = compileMessage.invalidInviteCodeMessage();
           let notExistInviteCodeMessage = compileMessage.notExistInviteCodeMessage();
           let notBeaconedInviteCodeMessage = compileMessage.notBeaconedInviteCodeMessage();

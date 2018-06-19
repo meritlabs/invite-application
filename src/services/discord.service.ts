@@ -1,4 +1,4 @@
-import { messageTypes, commands } from './../common/ts/const';
+import { messageTypes, commands, strings } from './../common/ts/const';
 
 // Function for getting and checking guild
 export function getGuildInfo(app: any, client: any, GUILD_NAME: string) {
@@ -32,7 +32,7 @@ export async function sendToChannels(client: any, channels: any, message: string
         if (channel) channel.send(message);
       });
     } else {
-      console.error('PLEASE SETUP CHANNELS');
+      console.error(strings.channelNotSetup);
     }
   });
 }

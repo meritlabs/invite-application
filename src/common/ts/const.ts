@@ -23,3 +23,9 @@ export enum validationStatuses {
   notBeaconed = 'not beaconed',
   notConfirmed = 'not confirmed',
 }
+
+export enum strings {
+  channelNotSetup = 'PLEASE SETUP CHANNELS',
+  joined = 'joined',
+  inviteCode = 'invite code',
+}

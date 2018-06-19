@@ -4,7 +4,7 @@ export function inviteRequest(message: string, connectionID: string) {
   return `Hey Invite Gang!
   \nNew user \`${connectionID}\` is looking for invite!
   \nIf you want to send this invite please DM current bot with init message:
-  \n \`send invite to: ${connectionID}@\`.
+  \n \`send invite to: ${connectionID}@\`
   \n**USER'S MESSAGE:**
    \n\`\`\`\n${message}\`\`\`
   \n*CONFUSED?*
