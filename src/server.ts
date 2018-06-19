@@ -8,6 +8,7 @@ import * as Discord from 'discord.js';
 import * as discordService from './services/discord.service';
 import * as wsService from './services/websocket.service';
 import * as compileMessage from './services/compile-message.service';
+import * as mws from './services/mws.service';
 import { chatPair, wsMessage } from './common/ts/classes';
 
 const app = express(),
@@ -70,7 +71,23 @@ discordClient.on('message', (message: any) => {
         }
         break;
       case 'regular-message-to-client':
-        wsService.getConnection(wss, pair.get('wsUser')).send(JSON.stringify(new wsMessage(discordUser, _message)));
+        mws.validateInviteCode(_message).then(res => {
+          let response = res as any;
+          if (response.status === 'valid') {
+            wsService
+              .getConnection(wss, pair.get('wsUser'))
+              .send(JSON.stringify(new wsMessage('invite code', response.address)));
+          }
+          if (response.status === 'not valid') {
+            message.author.send('Your code invalid try one more time!');
+          }
+          if (response.status === 'not beaconed') {
+            message.author.send('Your code not beaconed!, sorry you cant share invite :(');
+          }
+          if (response.status === 'not confirmed') {
+            message.author.send('Your code not confirmed!, sorry you cant share invite :(');
+          }
+        });
         break;
       case 'already-in-pair':
         message.author.send(compileMessage.alreadyInPair(pair.get('wsUser')));
