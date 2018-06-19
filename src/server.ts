@@ -63,7 +63,7 @@ discordClient.on('message', (message: any) => {
         if (connection && connection !== null) {
           connection.discordUser = message.author;
           chatPairs.push(new chatPair(discordUser, connection.id));
-          connection.send(JSON.stringify(new wsMessage(discordUser, 'Joined!')));
+          connection.send(JSON.stringify(new wsMessage(discordUser, 'joined')));
           message.author.send(compileMessage.connectedToClient(connection.id));
           discordService.sendToChannels(discordClient, CHANNELS, compileMessage.requestTaken(connection.id));
         } else {
@@ -73,9 +73,6 @@ discordClient.on('message', (message: any) => {
       case 'regular-message-to-client':
         mws.validateInviteCode(_message).then(res => {
           let response = res as any;
-
-          console.log(response);
-
           if (response.status === 'valid') {
             wsService
               .getConnection(wss, pair.get('wsUser'))

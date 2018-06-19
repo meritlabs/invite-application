@@ -13,7 +13,7 @@ const appTitle = $('.chatWindow__title .text'),
   countDown = $('.countDown'),
   responseWindow = $('.responseWindow'),
   messagesContainer = $('.responseWindow__dialog'),
-  navigateToCommunityTab = $('.responseWindow__navigator .button, .noResponse__navigator .button.community'),
+  navigateToCommunityTab = $('.button.fail, .noResponse__navigator .button.community'),
   communityView = $('.communityView'),
   restartButton = $('.noResponse__navigator .button.try');
 
@@ -96,14 +96,18 @@ function requestStatus(socket, remainTime: number) {
 }
 
 function defineMessage(container: any, object: any) {
-  $(messageTemplate(object.author, object.message)).appendTo(container);
-}
-
-function messageTemplate(author: string, message: string) {
-  return `<div class="dialog__item">
-            <div class="item__author">@${author}</div>
-            <div class="item__message">${message}</div>
-          </div>`;
+  if (object.message === 'joined') {
+    $('.dialog__item.joined').addClass('active');
+    $('.dialog__item.joined .message').text(`@${object.author}`);
+    $('.dialog__item.joined .time').text(new Date().getTime());
+  } else {
+    $('.dialog__item.inviteCode, .button.success').addClass('active');
+    $('.button.success').attr('href', `https://wallet.merit.me/?invite=${object.message}`);
+    $('.dialog__item.inviteCode .message').html(
+      `Your invite link: <a href="https://wallet.merit.me/?invite=${object.message}" target="_blank">${object.message}</a>`
+    );
+    $('.dialog__item.inviteCode .time').text(new Date().getTime());
+  }
 }
 
 // Class for invite response for form messenger

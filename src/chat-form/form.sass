@@ -203,7 +203,6 @@ body.chatWindow
     .button
       &.success
         width: 100%
-        display: block
         text-align: center
         box-shadow: 0 0 10px rgba(0,0,0, .1)
         border-radius: 4px
@@ -215,6 +214,8 @@ body.chatWindow
         background: $JADE
         color: $PORCELAIN
         display: none
+        &.active
+          display: block
       &.fail
         border: 0px
         border-radius: 0
