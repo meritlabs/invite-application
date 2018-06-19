@@ -13,7 +13,7 @@ const appTitle = $('.chatWindow__title .text'),
   countDown = $('.countDown'),
   responseWindow = $('.responseWindow'),
   messagesContainer = $('.responseWindow__dialog'),
-  navigateToCommunitytab = $('.responseWindow__navigator .button, .noResponse__navigator .button.community'),
+  navigateToCommunityTab = $('.responseWindow__navigator .button, .noResponse__navigator .button.community'),
   communityView = $('.communityView'),
   restartButton = $('.noResponse__navigator .button.try');
 
@@ -50,7 +50,7 @@ $('document').ready(function() {
   });
 });
 
-navigateToCommunitytab.click(() => {
+navigateToCommunityTab.click(() => {
   appTitle.text(titles.joinUs);
   responseWindow.removeClass('active');
   noResponse.removeClass('active');
@@ -96,7 +96,7 @@ function requestStatus(socket, remainTime: number) {
 }
 
 function printMessage(container: any, object: any) {
-  $(messageTemplate(object.author, object.message)).prependTo(container);
+  $(messageTemplate(object.author, object.message)).appendTo(container);
 }
 
 function messageTemplate(author: string, message: string) {

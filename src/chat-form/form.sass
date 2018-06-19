@@ -3,6 +3,8 @@
 html, body
   width: 100%
   height: 100%
+button
+  border: 0
 body.chatWindow
   background: $IRON
   font-family: Verdana, Geneva, sans-serif;
@@ -148,49 +150,79 @@ body.chatWindow
     display: block
   &__dialog
     width: 100%
-    background: $PORCELAIN
     resize: none
-    height: 200px
-    border: 2px solid $DODGER_BLUE
-    box-shadow: inset 0 0 10px rgba(0,0,0, .1)
-    border-radius: 4px
     margin-bottom: 20px
-    padding: 10px
-    font-size: 16px
-    line-height: 20px
     box-sizing: border-box
     overflow-y: auto
   .dialog__item
     display: flex
-    margin-bottom: 10px
-    .item
-      &__author
-        color: $DODGER_BLUE
-        font-weight: 600
-        &:after
-          content: ":"
-          margin-right: 10px
-  &__navigator
-    .button
-      width: 100%
+    margin-bottom: 20px
+    align-items: center
+    flex-flow: row wrap
+    color: $LYNCH
+    &:before
+      content: ""
       display: block
-      text-align: center
-      box-shadow: 0 0 10px rgba(0,0,0, .1)
-      border-radius: 4px
-      font-size: 14px
-      font-weight: 500
-      padding: 15px
-      margin-bottom: 15px
-      transition: all .3s linear
+      width: 50px
+      height: 50px
+      background: $LYNCH
+      mask-image: url(images/spiner.svg)
+      -webkit-mask-image: url(images/spiner.svg)
+      -webkit-mask-repeat: no-repeat
+      mask-repeat: no-repeat
+      -webkit-mask-size: cover
+      mask-size: cover
+      margin-right: 15px
+      position: relative
+      animation: spin .7s linear infinite
+    &.active:before
+      background: $JADE
+      mask-image: url(images/check.svg)
+      -webkit-mask-image: url(images/check.svg)
+      animation: none 2s linear infinite
+    .item__message
+      font-weight: 600
+      width: calc(100% - 65px)
+      .time
+        font-size: 10px
+        font-weight: 600
+        opacity: .5
+        margin-bottom: 5px
+        margin-top: -18px
+        text-align: right
+      strong
+        color: $TELEGRAM
+      a
+        text-decoration: underline
+        font-style: italic
+        color: $EBONY_CLAY
+        opacity: .9
+  &__navigator
+    display: flex
+    flex-direction: column
+    .button
       &.success
+        width: 100%
+        display: block
+        text-align: center
+        box-shadow: 0 0 10px rgba(0,0,0, .1)
+        border-radius: 4px
+        font-size: 14px
+        font-weight: 500
+        padding: 15px
+        margin-bottom: 15px
+        transition: all .3s linear
         background: $JADE
         color: $PORCELAIN
-        opacity: .8
+        display: none
       &.fail
-        opacity: .5
-        background: $IRON
+        border: 0px
+        border-radius: 0
+        background: none
         color: $SUNSET_ORANGE
-        border: 2px solid $SUNSET_ORANGE
+        text-align: center
+        font-style: italic
+        text-decoration: underline
       &:hover
         opacity: .99
 .communityView
@@ -220,3 +252,8 @@ body.chatWindow
         color: $DISCORD
         border-color: $DISCORD
 
+@keyframes spin 
+  0%  
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
