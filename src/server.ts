@@ -56,101 +56,100 @@ wss.on('connection', (ws: WebSocket) => {
 });
 
 discordClient.on('message', (message: any) => {
-  (async () => {
-    let type: string = message.channel.type,
-      _message: string = message.content;
+  let type: string = message.channel.type,
+    _message: string = message.content;
 
-    if (type === 'dm') {
-      let discordUser: any = message.channel.recipient.username;
-      let pair = await wsService.checkPair(chatPairs, discordUser);
-      let isCommand = discordService.detectCommand(_message);
-      let isBot = message.author.bot;
-      let messageType = discordService.detectMessageType(pair, isCommand, isBot);
+  if (type === 'dm') {
+    let discordUser: any = message.channel.recipient.username;
+    let pair = wsService.checkPair(chatPairs, discordUser);
+    let isCommand = discordService.detectCommand(_message);
+    let isBot = message.author.bot;
+    let messageType = discordService.detectMessageType(pair, isCommand, isBot);
 
-      console.log('START___DEBUG___PAIR___');
-      console.log(pair);
-      console.log('END___DEBUG___PAIR___');
+    console.log('START___DEBUG___PAIR___');
+    console.log(pair);
+    console.log('END___DEBUG___PAIR___');
 
-      switch (messageType) {
-        case 'join-to-pair':
-          let connectionID = wsService.parseConnection(_message);
-          let connection = wsService.getConnection(wss, connectionID);
-          let unableToConnectMessage = compileMessage.unableToConnect();
+    switch (messageType) {
+      case 'join-to-pair':
+        let connectionID = wsService.parseConnection(_message);
+        let connection = wsService.getConnection(wss, connectionID);
+        let unableToConnectMessage = compileMessage.unableToConnect();
 
-          if (connection && connection !== null) {
-            connection.discordUser = message.author; //attach Discord user to the new connection pair
+        if (connection && connection !== null) {
+          connection.discordUser = message.author; //attach Discord user to the new connection pair
 
-            let newPair = new chatPair(discordUser, connection.id);
-            let discordUserJoinedMessage = JSON.stringify(new wsMessage(discordUser, 'joined'));
-            let successfulConnectedToClientMessage = compileMessage.connectedToClient(connection.id);
-            let clientTakenMessage = compileMessage.requestTaken(connection.id);
+          let newPair = new chatPair(discordUser, connection.id);
+          let discordUserJoinedMessage = JSON.stringify(new wsMessage(discordUser, 'joined'));
+          let successfulConnectedToClientMessage = compileMessage.connectedToClient(connection.id);
+          let clientTakenMessage = compileMessage.requestTaken(connection.id);
 
-            chatPairs.push(newPair); // Add created pair to WS
-            await connection.send(discordUserJoinedMessage); // Send connection message to the Application client
-            await message.author.send(successfulConnectedToClientMessage); // Reply to author that he's successfully connected to the application client
-            await discordService.sendToChannels(discordClient, CHANNELS, clientTakenMessage); // Notify community that somebody from the community already connected to the existing application client
-          } else {
-            message.author.send(unableToConnectMessage); // Notify Discord user that He's can't connect to the current Application client
+          chatPairs.push(newPair); // Add created pair to WS
+          connection.send(discordUserJoinedMessage); // Send connection message to the Application client
+          message.author.send(successfulConnectedToClientMessage); // Reply to author that he's successfully connected to the application client
+          discordService.sendToChannels(discordClient, CHANNELS, clientTakenMessage); // Notify community that somebody from the community already connected to the existing application client
+        } else {
+          // message.author.send(unableToConnectMessage); // Notify Discord user that He's can't connect to the current Application client
+        }
+        break;
+      case 'regular-message-to-client':
+        mws.validateInviteCode(_message).then(res => {
+          let response: any = res;
+          let validationStatus = response.status;
+          let connection = wsService.getConnection(wss, pair.get('wsUser'));
+          let inviteCodeMessage = JSON.stringify(new wsMessage('invite code', response.address));
+          let invalidInviteCodeMessage = 'Your code invalid try one more time!';
+          let notExistInviteCodeMessage = 'Entered invite code not valid or not exist!';
+          let notBeaconedInviteCodeMessage = 'Your code not beaconed!, sorry you cant share invite :(';
+          let notConfirmedInviteCodeMessage = 'Your code not confirmed!, sorry you cant share invite :(';
+          let somethingWentWrongMessage = 'Something went wrong please notify `@coreteam`';
+
+          switch (validationStatus) {
+            case 'valid':
+              connection.send(inviteCodeMessage); // Send invite code to the current application client
+              break;
+            case 'not exist':
+              message.author.send(invalidInviteCodeMessage); // Notify Discord user that He's entered not exist alias / address
+              break;
+            case 'not valid':
+              message.author.send(notExistInviteCodeMessage); // Notify Discord user that He's entered alias / address not valid
+              break;
+            case 'not beaconed':
+              message.author.send(notBeaconedInviteCodeMessage); // Notify Discord user that He's entered alias / address not beaconed
+              break;
+            case 'not confirmed':
+              message.author.send(notConfirmedInviteCodeMessage); // Notify Discord user that He's entered alias / address not confirmed
+              break;
+            default:
+              message.author.send(somethingWentWrongMessage); // Notify Discord user that something went wrong
+              break;
           }
-          break;
-        case 'regular-message-to-client':
-          mws.validateInviteCode(_message).then(res => {
-            let response: any = res;
-            let connection = wsService.getConnection(wss, pair.get('wsUser'));
-            let inviteCodeMessage = JSON.stringify(new wsMessage('invite code', response.address));
-            let invalidInviteCodeMessage = 'Your code invalid try one more time!';
-            let notExistInviteCodeMessage = 'Entered invite code not valid or not exist!';
-            let notBeaconedInviteCodeMessage = 'Your code not beaconed!, sorry you cant share invite :(';
-            let notConfirmedInviteCodeMessage = 'Your code not confirmed!, sorry you cant share invite :(';
-            let somethingWentWrongMessage = 'Something went wrong please notify `@coreteam`';
-
-            switch (messageType) {
-              case 'valid':
-                connection.send(inviteCodeMessage); // Send invite code to the current application client
-                break;
-              case 'not exist':
-                message.author.send(invalidInviteCodeMessage); // Notify Discord user that He's entered not exist alias / address
-                break;
-              case 'not valid':
-                message.author.send(notExistInviteCodeMessage); // Notify Discord user that He's entered alias / address not valid
-                break;
-              case 'not beaconed':
-                message.author.send(notBeaconedInviteCodeMessage); // Notify Discord user that He's entered alias / address not beaconed
-                break;
-              case 'not confirmed':
-                message.author.send(notConfirmedInviteCodeMessage); // Notify Discord user that He's entered alias / address not confirmed
-                break;
-              default:
-                message.author.send(somethingWentWrongMessage); // Notify Discord user that something went wrong
-                break;
-            }
-          });
-          break;
-        case 'already-in-pair':
-          message.author.send(compileMessage.alreadyInPair(pair.get('wsUser')));
-          break;
-        case 'destroy-pair':
-          if (pair) {
-            (async () => {
-              chatPairs = (await wsService.destroyPair(chatPairs, pair.discordUser)) as any[];
-              message.author.send(compileMessage.pairDestroyed());
-            })();
-          } else {
-            message.author.send(compileMessage.noActiveConnections());
-          }
-          break;
-        case 'bot-help':
-          message.author.send(compileMessage.getHelp()); // Post to Discord user help message
-          break;
-        case 'how-to-use':
-          message.author.send(compileMessage.howToUse()); // Post to Discord user how to use message
-          break;
-        case 'default-exception':
-          message.author.send(compileMessage.defaultException()); // Post to Discord user default exception
-          break;
-        default:
-          break;
-      }
+        });
+        break;
+      case 'already-in-pair':
+        message.author.send(compileMessage.alreadyInPair(pair.get('wsUser')));
+        break;
+      case 'destroy-pair':
+        if (pair) {
+          (async () => {
+            chatPairs = (await wsService.destroyPair(chatPairs, pair.discordUser)) as any[];
+            message.author.send(compileMessage.pairDestroyed());
+          })();
+        } else {
+          message.author.send(compileMessage.noActiveConnections());
+        }
+        break;
+      case 'bot-help':
+        message.author.send(compileMessage.getHelp()); // Post to Discord user help message
+        break;
+      case 'how-to-use':
+        message.author.send(compileMessage.howToUse()); // Post to Discord user how to use message
+        break;
+      case 'default-exception':
+        message.author.send(compileMessage.defaultException()); // Post to Discord user default exception
+        break;
+      default:
+        break;
     }
-  })();
+  }
 });
