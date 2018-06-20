@@ -1,4 +1,5 @@
-declare var $: any;
+declare const $: any;
+declare const gtag: any;
 
 const titles = {
   welcomeTitle: 'Apply for a Merit Invite!',
@@ -18,6 +19,7 @@ const appTitle = $('.chatWindow__title .text'),
   restartButton = $('.noResponse__navigator .button.try');
 
 $('document').ready(function() {
+  gtag('event', 'Source', { event_category: 'Sources', event_action: 'Load', event_label: '_Merit.me' });
   appTitle.text(titles.welcomeTitle);
   sendingForm.submit(function(e) {
     e.preventDefault();
@@ -100,6 +102,11 @@ function defineMessage(container: any, object: any) {
     $('.dialog__item.joined').addClass('active');
     $('.dialog__item.joined .message').text(`@${object.author}`);
     $('.dialog__item.joined .time').text(new Date().getTime());
+    gtag('event', 'Community User', {
+      event_category: 'Analytic',
+      event_action: 'Connecting',
+      event_label: `_@${object.author}_at_Discord`,
+    });
   } else {
     $('.dialog__item.inviteCode, .button.success').addClass('active');
     $('.button.success').attr('href', `https://wallet.merit.me/?invite=${object.message}`);
