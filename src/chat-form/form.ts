@@ -31,7 +31,7 @@ sendingForm.submit(function(e) {
   let message = $('textarea[name=message]').val();
   let host = `wss://${window.location.host}/`;
   if (/^localhost/.test(window.location.host)) host = `ws://${window.location.host}/`;
-  if (message.length > 99) {
+  if (message.length > 74) {
     let socket: any = new WebSocket(host);
 
     socket.onopen = function() {
@@ -57,7 +57,7 @@ sendingForm.submit(function(e) {
 });
 
 $(document).keydown(function() {
-  if (sendingForm.hasClass('invalid') && $('textarea[name=message]').val().length > 99) {
+  if (sendingForm.hasClass('invalid') && $('textarea[name=message]').val().length > 74) {
     sendingForm.removeClass('invalid');
   }
 });

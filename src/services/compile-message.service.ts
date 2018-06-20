@@ -69,14 +69,18 @@ export function defaultException() {
 
 // How to use the bot -- sent to INVITER.
 export function howToUse() {
-  return `Here is how you use the Merit Invite Bot:
-  \nIf you see a message from me in the invites channel that looks like this: http://prntscr.com/jwbl5a,
+  return `The Merit Invite bot allows users who do not use Discord or Telegram to request an invite directly from the website!
+  \nThey will fill out an application that looks like this: http://prntscr.com/jxbfs5
+  \nIf you offer to send them an invite, they will receive your alias (unlock code) and can create their wallet in one-click.  You still *must approve their request.* 
+  \nHere is how you use the Merit Invite Bot:
+  \nIf you see a message from me in the invites channel that looks like this: http://prntscr.com/jxbgyr ,
     and you have an available invite token to share, you can invite the new user who requested an invitation. 
     Here is how:
-  \n 1) Copy the required message to invite this new user: http://prntscr.com/jwbmz6
-  \n 2) Send that message to me via direct message (DM).  Here's how: click on my username and paste the message you copied above and press enter! http://prntscr.com/jwbn9u
-  \n 3) If you are the first person who responds to me, you will have the opportunity to invite this new user to the Merit community.  http://prntscr.com/jwbodk
+  \n 1) Copy the required message to invite this new user: http://prntscr.com/jxbhd3
+  \n 2) Send that message to me via direct message (DM).  Here's how: click on my username and paste the message you copied above and press enter! http://prntscr.com/jxbhli
+  \n 3) If you are the first person who responds to me, you will have the opportunity to invite this new user to the Merit community.  http://prntscr.com/jxbi2t
   \n 4) When your invite code is shared with the new user, they will be able to click a button and go directly to the wallet with your code filled out.
+  \n 5) You **still have to approve** the user's invitation request from inside your wallet.
   \n 6) Remember, you can only be in the process of inviting one new user at a time.`;
 }
 
