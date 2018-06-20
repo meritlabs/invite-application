@@ -34,7 +34,7 @@ $('document').ready(function() {
         sendingForm.removeClass('invalid').addClass('valid');
         countDown.addClass('active');
         appTitle.text(titles.waitingForInvite);
-        requestStatus(socket, 5).then((res: any) => {
+        requestStatus(socket, 15).then((res: any) => {
           if (!res.status) {
             appTitle.text(titles.noResponse);
             countDown.removeClass('active');

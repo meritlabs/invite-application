@@ -38,27 +38,39 @@ discordService.getGuildInfo(app, discordClient, GUILD_NAME);
 // Serve invite application
 app.use(APP_SLUG, express.static('./dist/server/chat-form'));
 
-let time: number = 0,
-  fakeId: number = 0,
-  chatPairs: any[];
+let fakeId: number = 0;
+let chatPairs: any[];
+let awaitingQueue: any[];
+
 chatPairs = [];
+awaitingQueue = [];
 
 wss.on('connection', (ws: WebSocket) => {
   let connectionID = wsService.createConnectionID(fakeId++);
+
   (ws as any).id = connectionID;
+  awaitingQueue.push(ws);
+
+  console.log('START__DEBUG__CREATED_CONNECTION___');
+  console.log(awaitingQueue);
+  console.log('END__DEBUG__CREATED_CONNECTION___');
 
   ws.on('message', (message: string) => {
     discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRequest(message, connectionID));
   });
 
   ws.on('close', function() {
-    // (async () => {
-    //   chatPairs = (await wsService.destroyPair(chatPairs, connectionID)) as any[];
-    // })();
+    (async () => {
+      chatPairs = (await wsService.destroyPair(chatPairs, connectionID)) as any[];
+    })();
   });
 });
 
 discordClient.on('message', (message: any) => {
+  console.log('START__DEBUG__PRESENT_CONNECTIONS___');
+  console.log(awaitingQueue);
+  console.log('END__DEBUG__PRESENT_CONNECTIONS___');
+
   let type: string = message.channel.type;
   let _message: string = message.content;
   let isBot = message.author.bot;
@@ -76,7 +88,7 @@ discordClient.on('message', (message: any) => {
     switch (detectedMessageType) {
       case messageTypes.joinToPair:
         let connectionID = wsService.parseConnection(_message);
-        let connection = wsService.getConnection(wss, connectionID);
+        let connection = wsService.getConnection(awaitingQueue, connectionID);
         let unableToConnectMessage = compileMessage.unableToConnect();
 
         if (connection && connection !== null) {
@@ -99,7 +111,7 @@ discordClient.on('message', (message: any) => {
         mws.validateInviteCode(_message).then(res => {
           let response: any = res;
           let validationStatus = response.status;
-          let connection = wsService.getConnection(wss, pair.get('wsUser'));
+          let connection = wsService.getConnection(awaitingQueue, pair.get('wsUser'));
           let inviteCodeMessage = JSON.stringify(new wsMessage(strings.inviteCode, response.address));
           let invalidInviteCodeMessage = compileMessage.invalidInviteCodeMessage();
           let notExistInviteCodeMessage = compileMessage.notExistInviteCodeMessage();
