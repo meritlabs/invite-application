@@ -15,9 +15,11 @@ const appTitle = $('.chatWindow__title .text'),
   responseWindow = $('.responseWindow'),
   messagesContainer = $('.responseWindow__dialog'),
   navigateToCommunityTab = $('.button.fail, .noResponse__navigator .button.community'),
+  failButton = $('.button.fail'),
   communityView = $('.communityView'),
   restartButton = $('.noResponse__navigator .button.try'),
   textareaInvalid = $('#sendRequest.invalid .form__input');
+var discordUser: string;
 
 $('document').ready(function() {
   gtag('event', 'Source', { event_category: 'Sources', event_action: 'Load', event_label: '_Merit.me' });
@@ -73,6 +75,11 @@ restartButton.click(() => {
   sendingForm.removeClass('valid');
 });
 
+failButton.click(() => {
+  $('.communityView__gotNothing').show();
+  $('.communityView__gotNothing .discordUser').text(discordUser);
+});
+
 function requestStatus(socket, remainTime: number) {
   return new Promise(resolve => {
     let remainTimeInMs = remainTime * 60;
@@ -116,6 +123,7 @@ function defineMessage(container: any, object: any) {
       event_action: 'Connecting',
       event_label: `_@${object.author}_at_Discord`,
     });
+    discordUser = object.author;
   } else {
     $('.dialog__item.inviteCode, .button.success').addClass('active');
     $('.button.success').attr('href', `https://wallet.merit.me/?invite=${object.message}`);
