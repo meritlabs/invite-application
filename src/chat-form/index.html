@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="form.css">
+
+  <title>Invite chat</title>
+</head>
+
+<body class="chatWindow">
+  <div class="chatWindow__wrap">
+    <div class="chatWindow__title">
+      <p class="text"></p>
+    </div>
+    <div class="chatWindow__content">
+      <div class="content">
+        <form class="form" id="sendRequest" method="POST">
+          <div class="content__title">
+            <p>Wanna get invite right now?</p>
+          </div>
+          <div class="content__description">
+            <p>Write briefly "Why are you god actor for the Merit Network?"</p>
+            <p>
+              <em>*Message min length 150 symbols.</em>
+            </p>
+          </div>
+          <textarea name="message" class="form__input"></textarea>
+          <button class="form__button">REQUEST NOW</button>
+        </form>
+        <div class="countDown">
+          <svg viewbox="0 0 36 36" class="static">
+            <path class="progress" stroke-dasharray="100, 100" d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831" />
+          </svg>
+          <svg viewbox="0 0 36 36" class="dynamic">
+            <path class="progress" stroke-dasharray="0, 100" d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831" />
+          </svg>
+          <div class="countDown__timer">
+            <div class="timer__item minutes">
+              00
+            </div>
+            <div class="timer__item seconds">
+              00
+            </div>
+          </div>
+        </div>
+        <div class="noResponse">
+          <div class="content__title">
+            <p>Looks like nobody from the community didn't accepted your request.</p>
+          </div>
+          <div class="content__description">
+            <p>You can post more request again, be sure that your request has good description...</p>
+            <p>
+              <em>*Please edit your message and test your luck again ;)</em>
+            </p>
+          </div>
+          <div class="noResponse__navigator">
+            <button class="button try">TRY ONE MORE TIME</button>
+            <button class="button community">ASK COMMUNITY</button>
+          </div>
+        </div>
+        <div class="responseWindow">
+          <div class="content__description">
+            <p>Great, somebody from the community accepted your request, now you able to create your wallet using received invite
+              token! Good luck!</p>
+          </div>
+          <div class="responseWindow__dialog">
+            <div class="dialog__item joined">
+              <div class="item__message">
+                <p class="time">
+
+                </p>
+                <p>
+                  GREAT JOB!,
+                  <strong class="message"></strong> from
+                  <a href="https://discordapp.com/invite/X3v3n3b" target="_blank">Discord</a> is connected!
+                </p>
+              </div>
+
+            </div>
+            <div class="dialog__item inviteCode">
+              <div class="item__message">
+                <p class="time"></p>
+                <p class="message">
+                  INVITE ON THE GO! OR VALIDATING BY MERIT NO SPAM SYSTEM.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="responseWindow__navigator">
+            <a class="button success" href="" target="_blank">CREATE WALLET NOW!</a>
+            <button class="button fail">I got nothing :(</button>
+          </div>
+        </div>
+        <div class="communityView">
+          <div class="content__description">
+            <p>Merit is, first and foremost, a community. We cultivate communities in many of the top chat tools and discussion
+              sites.
+            </p>
+          </div>
+          <div class="communityView__community">
+            <a href="https://discordapp.com/invite/X3v3n3b" class="button discord" target="_blank">
+              <img src="images/discord.svg" alt="">Discord</a>
+            <a href="https://t.me/meritocracy" class="button telegram" target="_blank">
+              <img src="images/telegram.svg" alt="">Telegram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="form.js"></script>
+</body>
+
+</html>

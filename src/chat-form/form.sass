@@ -1,0 +1,260 @@
+@import "../common/sass/reset"
+@import "../common/sass/variables"
+html, body
+  width: 100%
+  height: 100%
+button
+  border: 0
+body.chatWindow
+  background: transparent
+  font-family: Verdana, Geneva, sans-serif;
+  color: $EBONY_CLAY
+  display: flex
+  justify-content: center
+  align-items: center
+.chatWindow__wrap
+  max-height: 500px
+  max-width: 500px
+  height: 100%
+  width: 100%
+.chatWindow__title
+  font-size: 24px
+  font-weight: 600
+  color: $DODGER_BLUE
+  text-align: center
+  margin-bottom: 40px
+.content
+  &__title,
+  &__description
+    text-align: center
+    line-height: 24px
+    p
+      margin-bottom: 5px
+  &__title
+    font-size: 20px
+    font-weight: 600
+    margin-bottom: 10px
+    opacity: .8
+  &__description
+    font-size: 14px
+    margin-bottom: 30px
+    em
+      opacity: .8
+      font-size: 12px
+.form
+  display: block
+  width: 100%
+  &__input
+    width: 100%
+    background: $WHITE
+    resize: none
+    height: 130px
+    border: 2px solid $DODGER_BLUE
+    box-shadow: inset 0 0 10px rgba(0,0,0, .1)
+    border-radius: 4px
+    margin-bottom: 20px
+    padding: 10px
+    font-size: 16px
+    line-height: 20px
+    box-sizing: border-box
+  &__button
+    width: 100%
+    display: block
+    text-align: center
+    background: $JADE
+    box-shadow: 0 0 10px rgba(0,0,0, .1)
+    border-radius: 4px
+    font-size: 14px
+    font-weight: 500
+    color: $PORCELAIN
+    padding: 15px
+.form.valid
+  display: none
+
+.countDown
+  display: none
+  position: relative
+  width: 250px
+  margin: 0px auto
+  &.active
+    display: block
+.countDown__timer
+  display: flex
+  justify-content: center
+  align-items: center
+  font-size: 50px
+  font-weight: 600
+  position: absolute
+  width: 250px
+  height: 250px
+  top: 0
+  left: 0
+.timer__item
+  color: $DODGER_BLUE
+  &:after
+    content: ":"
+  &:nth-child(2)
+    &:after
+      display: none
+.static,
+.dynamic
+  display: block
+  width: 250px
+  height: 250px
+  border-radius: 250px
+  box-shadow: 0 0 10px rgba(0,0,0, .2)
+.static
+  .progress
+    stroke: $PORCELAIN
+    fill: none
+    stroke-width: 2.8
+    stroke-linecap: round
+    stroke-dasharray: 100 100
+.dynamic
+  position: absolute
+  top: 0
+  left: 0
+  .progress
+    stroke: $JADE
+    fill: none
+    stroke-width: 2.8
+    stroke-linecap: round
+    stroke-dasharray: 0 100
+    transition: all .3s linear
+.noResponse
+  display: none
+  &.active
+    display: block
+  &__navigator
+    display: flex
+    justify-content: space-between
+    .button
+      width: calc(50% - 10px)
+      border-radius: 3px
+      font-size: 16px
+      font-weight: 500
+      padding: 15px
+      transition: all .3s linear
+      display: flex
+      align-items: center
+      justify-content: center
+      background: $JADE
+      color: $PORCELAIN
+      &.try
+        background: $PORCELAIN
+        color: $JADE
+        border: 2px solid $JADE
+.responseWindow
+  display: none
+  &.active
+    display: block
+  &__dialog
+    width: 100%
+    resize: none
+    margin-bottom: 20px
+    box-sizing: border-box
+    overflow-y: auto
+  .dialog__item
+    display: flex
+    margin-bottom: 20px
+    align-items: center
+    flex-flow: row wrap
+    color: $LYNCH
+    &:before
+      content: ""
+      display: block
+      width: 50px
+      height: 50px
+      background: $LYNCH
+      mask-image: url(images/spiner.svg)
+      -webkit-mask-image: url(images/spiner.svg)
+      -webkit-mask-repeat: no-repeat
+      mask-repeat: no-repeat
+      -webkit-mask-size: cover
+      mask-size: cover
+      margin-right: 15px
+      position: relative
+      animation: spin .7s linear infinite
+    &.active:before
+      background: $JADE
+      mask-image: url(images/check.svg)
+      -webkit-mask-image: url(images/check.svg)
+      animation: none 2s linear infinite
+    .item__message
+      font-weight: 600
+      width: calc(100% - 65px)
+      .time
+        font-size: 10px
+        font-weight: 600
+        opacity: .5
+        margin-bottom: 5px
+        margin-top: -18px
+        text-align: right
+      strong
+        color: $TELEGRAM
+      a
+        text-decoration: underline
+        font-style: italic
+        color: $EBONY_CLAY
+        opacity: .9
+  &__navigator
+    display: flex
+    flex-direction: column
+    .button
+      &.success
+        width: 100%
+        text-align: center
+        box-shadow: 0 0 10px rgba(0,0,0, .1)
+        border-radius: 4px
+        font-size: 14px
+        font-weight: 500
+        padding: 15px
+        margin-bottom: 15px
+        transition: all .3s linear
+        background: $JADE
+        color: $PORCELAIN
+        display: none
+        &.active
+          display: block
+      &.fail
+        border: 0px
+        border-radius: 0
+        background: none
+        color: $SUNSET_ORANGE
+        text-align: center
+        font-style: italic
+        text-decoration: underline
+      &:hover
+        opacity: .99
+.communityView
+  display: none
+  &.active
+    display: block
+  &__community
+    display: flex
+    justify-content: space-between
+    .button
+      width: calc(50% - 10px)
+      border-radius: 3px
+      font-size: 16px
+      font-weight: 500
+      padding: 15px
+      transition: all .3s linear
+      display: flex
+      align-items: center
+      justify-content: center
+      background: $PORCELAIN
+      border: 2px solid $TELEGRAM
+      color: $TELEGRAM
+      img
+        margin-right: 10px
+        max-width: 20px
+      &.discord
+        color: $DISCORD
+        border-color: $DISCORD
+
+@keyframes spin 
+  0%  
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
