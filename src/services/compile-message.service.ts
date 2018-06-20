@@ -9,8 +9,7 @@ export function inviteRequest(message: string, connectionID: string) {
   \nIf you want to invite this user please DM me with the following message:
   \n \`send invite to: ${connectionID}@\`
   \n*NEED HELP?*
-  \nSend me a DM \`#how-it-works\`.
-  \n
+  \nSend me a DM with: \`#how-it-works\`.
   \n----------------------------------------------------`;
 }
 
