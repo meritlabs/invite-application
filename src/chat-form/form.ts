@@ -16,40 +16,48 @@ const appTitle = $('.chatWindow__title .text'),
   messagesContainer = $('.responseWindow__dialog'),
   navigateToCommunityTab = $('.button.fail, .noResponse__navigator .button.community'),
   communityView = $('.communityView'),
-  restartButton = $('.noResponse__navigator .button.try');
+  restartButton = $('.noResponse__navigator .button.try'),
+  textareaInvalid = $('#sendRequest.invalid .form__input');
 
 $('document').ready(function() {
   gtag('event', 'Source', { event_category: 'Sources', event_action: 'Load', event_label: '_Merit.me' });
   appTitle.text(titles.welcomeTitle);
-  sendingForm.submit(function(e) {
-    e.preventDefault();
-    let message = $('textarea[name=message]').val();
-    let host = `wss://${window.location.host}/`;
-    if (/^localhost/.test(window.location.host)) host = `ws://${window.location.host}/`;
-    if (message.length > 1) {
-      let socket: any = new WebSocket(host);
+});
 
-      socket.onopen = function() {
-        socket.send(message);
-        sendingForm.removeClass('invalid').addClass('valid');
-        countDown.addClass('active');
-        appTitle.text(titles.waitingForInvite);
-        requestStatus(socket, 15).then((res: any) => {
-          if (!res.status) {
-            appTitle.text(titles.noResponse);
-            countDown.removeClass('active');
-            noResponse.addClass('active');
-          } else {
-            countDown.removeClass('active');
-            appTitle.text(titles.userConnected);
-            responseWindow.addClass('active');
-          }
-        });
-      };
-    } else {
-      sendingForm.addClass('invalid').removeClass('valid');
-    }
-  });
+sendingForm.submit(function(e) {
+  e.preventDefault();
+  let message = $('textarea[name=message]').val();
+  let host = `wss://${window.location.host}/`;
+  if (/^localhost/.test(window.location.host)) host = `ws://${window.location.host}/`;
+  if (message.length > 99) {
+    let socket: any = new WebSocket(host);
+
+    socket.onopen = function() {
+      socket.send(message);
+      sendingForm.removeClass('invalid').addClass('valid');
+      countDown.addClass('active');
+      appTitle.text(titles.waitingForInvite);
+      requestStatus(socket, 15).then((res: any) => {
+        if (!res.status) {
+          appTitle.text(titles.noResponse);
+          countDown.removeClass('active');
+          noResponse.addClass('active');
+        } else {
+          countDown.removeClass('active');
+          appTitle.text(titles.userConnected);
+          responseWindow.addClass('active');
+        }
+      });
+    };
+  } else {
+    sendingForm.addClass('invalid').removeClass('valid');
+  }
+});
+
+$(document).keydown(function() {
+  if (sendingForm.hasClass('invalid') && $('textarea[name=message]').val().length > 99) {
+    sendingForm.removeClass('invalid');
+  }
 });
 
 navigateToCommunityTab.click(() => {
@@ -70,10 +78,11 @@ function requestStatus(socket, remainTime: number) {
     let remainTimeInMs = remainTime * 60;
     let interval = setInterval(() => {
       var t = remainTimeInMs-- * 1000,
-        minutes = `0${Math.floor(t / 1000 / 60 % 60)}`,
+        minutes = `${Math.floor(t / 1000 / 60 % 60)}`,
         seconds = `${Math.floor(t / 1000 % 60)}`,
         progress = (remainTime * 60 - remainTimeInMs--) / (remainTime * 60) * 100;
       if (parseFloat(seconds) < 10) seconds = `0${seconds}`;
+      if (parseFloat(minutes) < 10) minutes = `0${minutes}`;
 
       if (t > 0) {
         $('.timer__item.minutes').text(minutes);
