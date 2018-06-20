@@ -9,7 +9,9 @@ export function inviteRequest(message: string, connectionID: string) {
   \nIf you want to invite this user please DM me with the following message:
   \n \`send invite to: ${connectionID}@\`
   \n*NEED HELP?*
-  \nSend me a DM \`#how-it-works\`.`;
+  \nSend me a DM \`#how-it-works\`.
+  \n
+  \n----------------------------------------------------`;
 }
 
 //This is sent to the INVITER via DM
@@ -29,7 +31,7 @@ export function unableToConnect() {
   \n 3) The user changed their mind.  They closed the application process window before we could invite them.`;
 }
 
-// Sent to the public channel when the APPLICANT has been approved. 
+// Sent to the public channel when the APPLICANT has been approved.
 export function requestTaken(id: string) {
   return `Woooh!  User ${id} is now part of the Merit community, and has been invited by one of you!`;
 }
@@ -93,7 +95,7 @@ export function invalidInviteCodeMessage() {
 }
 
 export function notExistInviteCodeMessage() {
-  return 'Hrmm.  I cannot seem to find that alias on the Merit Network.  Please re-check it and try again!';  
+  return 'Hrmm.  I cannot seem to find that alias on the Merit Network.  Please re-check it and try again!';
 }
 
 export function notBeaconedInviteCodeMessage() {
@@ -101,7 +103,7 @@ export function notBeaconedInviteCodeMessage() {
 }
 
 export function notConfirmedInviteCodeMessage() {
-  return 'It looks like your wallet has has very recently received an invite token!  You cannot invite someone new until your wallet has been confirmed, which takes about 5 minutes.  \nPlease try again soon!';  
+  return 'It looks like your wallet has has very recently received an invite token!  You cannot invite someone new until your wallet has been confirmed, which takes about 5 minutes.  \nPlease try again soon!';
 }
 
 export function somethingWentWrongMessage() {
