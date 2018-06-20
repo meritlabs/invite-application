@@ -19,7 +19,8 @@ const app = express(),
   CHANNELS = process.env.CHANNELS || '',
   BOT_TOKEN = process.env.BOT_TOKEN || '',
   APP_SLUG = process.env.APP_SLUG || '/get-invite',
-  PORT = process.env.PORT || 8999;
+  PORT = process.env.PORT || 8999,
+  DEBUG = process.env.DEBUG || true;
 
 //initialize the WebSocket server instance
 const wss = new WebSocket.Server({ server });
@@ -51,12 +52,20 @@ wss.on('connection', (ws: WebSocket) => {
   (ws as any).id = connectionID;
   awaitingQueue.push(ws);
 
-  console.log('START__DEBUG__CREATED_CONNECTION___');
-  console.log(awaitingQueue);
-  console.log('END__DEBUG__CREATED_CONNECTION___');
+  if (DEBUG) {
+    console.log('START__DEBUG__CREATED_CONNECTION___');
+    console.log(awaitingQueue);
+    console.log('END__DEBUG__CREATED_CONNECTION___');
+  }
 
   ws.on('message', (message: string) => {
-    discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRequest(message, connectionID));
+    if (message.length > 99) {
+      discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRequest(message, connectionID));
+    } else {
+      if (DEBUG) {
+        console.log(`DEBUG__BE__AWAKE__IM__HERE__${connectionID}`);
+      }
+    }
   });
 
   ws.on('close', function() {
@@ -67,9 +76,11 @@ wss.on('connection', (ws: WebSocket) => {
 });
 
 discordClient.on('message', (message: any) => {
-  console.log('START__DEBUG__PRESENT_CONNECTIONS___');
-  console.log(awaitingQueue);
-  console.log('END__DEBUG__PRESENT_CONNECTIONS___');
+  if (DEBUG) {
+    console.log('START__DEBUG__PRESENT_CONNECTIONS___');
+    console.log(awaitingQueue);
+    console.log('END__DEBUG__PRESENT_CONNECTIONS___');
+  }
 
   let type: string = message.channel.type;
   let _message: string = message.content;
@@ -81,9 +92,11 @@ discordClient.on('message', (message: any) => {
     let isCommand = discordService.detectCommand(_message);
     let detectedMessageType = discordService.detectMessageType(pair, isCommand, isBot);
 
-    console.log('START___DEBUG___PAIR___');
-    console.log(pair);
-    console.log('END___DEBUG___PAIR___');
+    if (DEBUG) {
+      console.log('START___DEBUG___PAIR___');
+      console.log(pair);
+      console.log('END___DEBUG___PAIR___');
+    }
 
     switch (detectedMessageType) {
       case messageTypes.joinToPair:

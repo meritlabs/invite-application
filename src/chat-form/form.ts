@@ -83,7 +83,7 @@ failButton.click(() => {
 function requestStatus(socket, remainTime: number) {
   return new Promise(resolve => {
     let remainTimeInMs = remainTime * 60;
-    let interval = setInterval(() => {
+    setInterval(() => {
       var t = remainTimeInMs-- * 1000,
         minutes = `${Math.floor(t / 1000 / 60 % 60)}`,
         seconds = `${Math.floor(t / 1000 % 60)}`,
@@ -96,17 +96,15 @@ function requestStatus(socket, remainTime: number) {
         $('.timer__item.seconds').text(seconds);
         $('.dynamic .progress').css('stroke-dasharray', `${progress} 100`);
       } else {
-        clearInterval(interval);
         resolve(new inviteResponse(false, '{author: "Merit", message: "No response"}'));
         $('.timer__item.minutes').text('00');
         $('.timer__item.seconds').text('00');
         $('.dynamic .progress').css('stroke-dasharray', `0 100`);
       }
+      socket.send('');
     }, 1000);
+
     socket.onmessage = function(event) {
-      if (interval) {
-        clearInterval(interval);
-      }
       resolve(new inviteResponse(true, event.data));
       defineMessage(messagesContainer, JSON.parse(event.data));
     };
