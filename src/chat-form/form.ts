@@ -115,7 +115,6 @@ function defineMessage(container: any, object: any) {
   if (object.message === 'joined') {
     $('.dialog__item.joined').addClass('active');
     $('.dialog__item.joined .message').text(`@${object.author}`);
-    $('.dialog__item.joined .time').text(new Date().getTime());
     gtag('event', 'Community User', {
       event_category: 'Analytic',
       event_action: 'Connecting',
@@ -128,7 +127,6 @@ function defineMessage(container: any, object: any) {
     $('.dialog__item.inviteCode .message').html(
       `Your invite link: <a href="https://wallet.merit.me/?invite=${object.message}" target="_blank">${object.message}</a>`
     );
-    $('.dialog__item.inviteCode .time').text(new Date().getTime());
   }
 }
 
