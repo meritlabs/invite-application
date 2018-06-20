@@ -21,16 +21,17 @@
       <div class="content">
         <form class="form" id="sendRequest" method="POST">
           <div class="content__title">
-            <p>Wanna get invite right now?</p>
+            <p>Get invited to the Merit community in as little as 5 minutes!</p>
           </div>
           <div class="content__description">
-            <p>Write briefly "Why are you god actor for the Merit Network?"</p>
+            <p>Tell us below why you would be a great addition to the Merit Community.</p>
+            <p>Your message will be relayed to the Merit Community in real-time, and you might receive an answer right away.</p>
             <p>
-              <em>*Message min length 150 symbols.</em>
+              <em>*Minimum application length: 150 characters.</em>
             </p>
           </div>
           <textarea name="message" class="form__input"></textarea>
-          <button class="form__button">REQUEST NOW</button>
+          <button class="form__button">REQUEST INVITE NOW</button>
         </form>
         <div class="countDown">
           <svg viewbox="0 0 36 36" class="static">
@@ -54,23 +55,23 @@
         </div>
         <div class="noResponse">
           <div class="content__title">
-            <p>Looks like nobody from the community didn't accepted your request.</p>
+            <p>Looks like nobody approved your application.</p>
           </div>
           <div class="content__description">
-            <p>You can post more request again, be sure that your request has good description...</p>
+            <p>This is often because your application did not include enough detail or was not convincing to members of the community.</p>
+            <p>Please remember that Merit Invite Tokens are scarce, and that people need a reason to spend one on YOU!</p>
             <p>
-              <em>*Please edit your message and test your luck again ;)</em>
+              <em>We recommend editing and improving your application, and posting it again.  Good luck!</em>
             </p>
           </div>
           <div class="noResponse__navigator">
-            <button class="button try">TRY ONE MORE TIME</button>
+            <button class="button try">REQUEST INVITE AGAIN</button>
             <button class="button community">ASK COMMUNITY</button>
           </div>
         </div>
         <div class="responseWindow">
           <div class="content__description">
-            <p>Great, somebody from the community accepted your request, now you able to create your wallet using received invite
-              token! Good luck!</p>
+            <p>A member of the community is willing to send you a Merit Invite Token!</p>
           </div>
           <div class="responseWindow__dialog">
             <div class="dialog__item joined">
@@ -79,9 +80,9 @@
 
                 </p>
                 <p>
-                  GREAT JOB!,
-                  <strong class="message"></strong> from
-                  <a href="https://discordapp.com/invite/X3v3n3b" target="_blank">Discord</a> is connected!
+                  COOL!,
+                  <strong class="message"></strong> from the Merit 
+                  <a href="https://discordapp.com/invite/X3v3n3b" target="_blank">Discord Chatroom</a> is willing to invite you!
                 </p>
               </div>
 
@@ -90,21 +91,23 @@
               <div class="item__message">
                 <p class="time"></p>
                 <p class="message">
-                  INVITE ON THE GO! OR VALIDATING BY MERIT NO SPAM SYSTEM.
+                  PLEASE WAIT WHILE THE USER ENTERS THEIR UNIQUE INVITE CODE.
                 </p>
               </div>
             </div>
           </div>
           <div class="responseWindow__navigator">
             <a class="button success" href="" target="_blank">CREATE WALLET NOW!</a>
-            <button class="button fail">I got nothing :(</button>
+            <button class="button fail">I never received an invite link.</button>
           </div>
         </div>
         <div class="communityView">
           <div class="content__description">
-            <p>Merit is, first and foremost, a community. We cultivate communities in many of the top chat tools and discussion
-              sites.
-            </p>
+            <!-- Only show the first line below IF the user clicks the red "I never received link.." above -->
+            <p>Your sponsoring community member, PUT_USERNAME_HERE, did not send along their invite code.  We recommend that you reach out directly to PUT_USERNAME_HERE on Discord.</p>
+            <!-- Only show the line above IF the user clicks the red "I never received link.." above -->
+            <p>You are welcome to join one of our public chat rooms below.</p>
+            <p>There, you will be able to ask questions and engage with other members of the community.</p>
           </div>
           <div class="communityView__community">
             <a href="https://discordapp.com/invite/X3v3n3b" class="button discord" target="_blank">

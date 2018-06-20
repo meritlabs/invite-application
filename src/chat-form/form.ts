@@ -1,11 +1,11 @@
 declare var $: any;
 
 const titles = {
-  welcomeTitle: 'Welcome to the Merit Invite Application!',
+  welcomeTitle: 'Apply for a Merit Invite!',
   waitingForInvite: 'Your message has been sent to community. Good luck!',
-  noResponse: 'No luck :(',
-  userConnected: 'Congrats! Your request accepted!',
-  joinUs: 'Join US!',
+  noResponse: 'Bad news.  Your application was rejected. :(',
+  userConnected: 'Congratulations! Your application has been approved!',
+  joinUs: 'Bummer!  Sorry your invite application did not work out.',
 };
 const appTitle = $('.chatWindow__title .text'),
   noResponse = $('.noResponse'),

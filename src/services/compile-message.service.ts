@@ -18,7 +18,7 @@ export function connectedToClient(id: string) {
   \n*I am about to share your invite code with the user
   \nIf you don't want to share your invite, tell me to \`#stop\`
   \nNeed help? Ask me \`#how-it-works\`*
-  \n**If you are ready to proceed, type your invite code (alias) now!**`;
+  \n**If you are ready to proceed, type your invite code (alias) now!  (Omit the @ symbol.)**`;
 }
 
 // Sent to the INVITER if there is an error
