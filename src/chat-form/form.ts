@@ -3,7 +3,7 @@ declare const gtag: any;
 
 const titles = {
   welcomeTitle: 'Apply for a Merit Invite!',
-  waitingForInvite: 'Your message has been sent to community. Good luck!',
+  waitingForInvite: 'The Merit community is currently reviewing your application.  Good luck!',
   noResponse: 'Bad news.  Your application was rejected. :(',
   userConnected: 'Congratulations! Your application has been approved!',
   joinUs: 'Bummer!  Sorry your invite application did not work out.',
