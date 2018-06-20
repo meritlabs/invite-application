@@ -59,7 +59,7 @@ wss.on('connection', (ws: WebSocket) => {
   }
 
   ws.on('message', (message: string) => {
-    if (message.length > 99) {
+    if (message.length > 74) {
       discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRequest(message, connectionID));
     } else {
       if (DEBUG) {
