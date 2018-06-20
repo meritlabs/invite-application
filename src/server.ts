@@ -52,9 +52,9 @@ wss.on('connection', (ws: WebSocket) => {
   });
 
   ws.on('close', function() {
-    (async () => {
-      chatPairs = (await wsService.destroyPair(chatPairs, connectionID)) as any[];
-    })();
+    // (async () => {
+    //   chatPairs = (await wsService.destroyPair(chatPairs, connectionID)) as any[];
+    // })();
   });
 });
 
