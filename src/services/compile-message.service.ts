@@ -58,7 +58,7 @@ export function getHelp() {
   \n3) If you are still confused, I can tell you how it works if you type:  \`#how-it-works\``;
 }
 
-// Error to the inviter.
+// Error to the INVITER.
 export function defaultException() {
   return `Oops! It looks like you are not actively inviting any new users right now.  This could be because:
   \n 1) The new user closed the invite application window.
@@ -66,7 +66,7 @@ export function defaultException() {
   \n 3) You sent a message that I do not understand.  To see which commands I respond to, type: \`#help\``;
 }
 
-// How to use the bot -- sent to inviter.
+// How to use the bot -- sent to INVITER.
 export function howToUse() {
   return `Here is how you use the Merit Invite Bot:
   \nIf you see a message from me in the invites channel that looks like this: http://prntscr.com/jwbl5a,
@@ -79,28 +79,31 @@ export function howToUse() {
   \n 6) Remember, you can only be in the process of inviting one new user at a time.`;
 }
 
+// Sent to the INVITER after a successful invitation.
 export function inviteShared(user) {
-  return `Congrats ${user}, your invite successfully shared!
-  \nNow you can back to the *#invite channel* and share your invite again!
-  \nGood luck!`;
+  return `Congrats ${user}! You have successfully invited a new user to the community!
+  \nCheck your Merit Wallet for an incoming Invite Request now.
+  \nPlease be sure to promptly approve this new user.  
+  \nI'm looking forward to working with you again!`;
 }
 
+// Sent to the INVITER when the code is invalid.
 export function invalidInviteCodeMessage() {
-  return 'Your code invalid try one more time!';
+  return 'Hrmm.  That invite code does not appear to be valid.  Please re-check it and try again!';
 }
 
 export function notExistInviteCodeMessage() {
-  return 'Entered invite code not valid or not exist!';
+  return 'Hrmm.  I cannot seem to find that alias on the Merit Network.  Please re-check it and try again!';  
 }
 
 export function notBeaconedInviteCodeMessage() {
-  return 'Your code not beaconed!, sorry you cant share invite :(';
+  return 'It looks like your wallet has not received an invite token yet!  You cannot invite someone new until you have received an invite token to activate your account.  \nFeel free to ask someone for help in the invite channel.';
 }
 
 export function notConfirmedInviteCodeMessage() {
-  return 'Your code not confirmed!, sorry you cant share invite :(';
+  return 'It looks like your wallet has has very recently received an invite token!  You cannot invite someone new until your wallet has been confirmed, which takes about 5 minutes.  \nPlease try again soon!';  
 }
 
 export function somethingWentWrongMessage() {
-  return 'Something went wrong please notify `@coreteam`';
+  return 'Oops.  I am having an internal error.  Please notify the `@coreteam` that something went wrong.';
 }
