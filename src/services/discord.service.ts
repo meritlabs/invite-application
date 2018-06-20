@@ -43,7 +43,7 @@ export function detectCommand(message) {
   if (/^send invite to: #/.test(message)) return (type = commands.activate);
   if (/^#stop/.test(message)) return (type = commands.deactivate);
   if (/^#help/.test(message)) return (type = commands.help);
-  if (/^#how-to-use/.test(message)) return (type = commands.howToUse);
+  if (/^#how-it-works/.test(message)) return (type = commands.howToUse);
   return type;
 }
 
