@@ -103,7 +103,9 @@ discordClient.on('message', (message: any) => {
         let connectionID = wsService.parseConnection(_message);
         let connection = wsService.getConnection(awaitingQueue, connectionID);
         let unableToConnectMessage = compileMessage.unableToConnect();
-        let isConnectionBusy = wsService.isConnectionBusy(chatPairs, connection.id);
+        let isConnectionBusy;
+
+        if (connection) isConnectionBusy = wsService.isConnectionBusy(chatPairs, connection.id);
 
         if (DEBUG) {
           console.log('START___IS_CONNECTION_BUSY___');
