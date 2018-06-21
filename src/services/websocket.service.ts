@@ -37,3 +37,8 @@ export async function destroyPair(chatPairs: any[], id: any) {
     }
   });
 }
+
+// function for detection is connection busy
+export function isConnectionBusy(pairs, id) {
+  return pairs.find((item: any) => item.wsUser === id);
+}

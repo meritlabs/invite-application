@@ -20,7 +20,7 @@ const app = express(),
   BOT_TOKEN = process.env.BOT_TOKEN || '',
   APP_SLUG = process.env.APP_SLUG || '/get-invite',
   PORT = process.env.PORT || 8999,
-  DEBUG = process.env.DEBUG || true;
+  DEBUG = process.env.DEBUG || false;
 
 //initialize the WebSocket server instance
 const wss = new WebSocket.Server({ server });
@@ -103,8 +103,15 @@ discordClient.on('message', (message: any) => {
         let connectionID = wsService.parseConnection(_message);
         let connection = wsService.getConnection(awaitingQueue, connectionID);
         let unableToConnectMessage = compileMessage.unableToConnect();
+        let isConnectionBusy = wsService.isConnectionBusy(chatPairs, connection.id);
 
-        if (connection && connection !== null) {
+        if (DEBUG) {
+          console.log('START___IS_CONNECTION_BUSY___');
+          console.log(isConnectionBusy);
+          console.log('END___IS_CONNECTION_BUSY___');
+        }
+
+        if (connection && connection !== null && !isConnectionBusy) {
           connection.discordUser = message.author; //attach Discord user to the new connection pair
 
           let newPair = new chatPair(discordUser, connection.id);
@@ -113,6 +120,7 @@ discordClient.on('message', (message: any) => {
           let clientTakenMessage = compileMessage.requestTaken(connection.id);
 
           chatPairs.push(newPair); // Add created pair to WS
+
           connection.send(discordUserJoinedMessage); // Send connection message to the Application client
           message.author.send(successfulConnectedToClientMessage); // Reply to author that he's successfully connected to the application client
           discordService.sendToChannels(discordClient, CHANNELS, clientTakenMessage); // Notify community that somebody from the community already connected to the existing application client
