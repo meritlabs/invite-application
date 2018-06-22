@@ -68,39 +68,45 @@ $(document).keydown(function() {
 });
 
 navigateToCommunityTab.click(() => {
-  appTitle.text(titles.joinUs);
-  responseWindow.removeClass('active');
-  noResponse.removeClass('active');
-  communityView.addClass('active');
   gtag('event', 'Source', {
     event_category: 'Sources',
     event_action: 'Load',
     event_label: '_Merit.me',
     event_value: 2,
   });
+  setTimeout(() => {
+    appTitle.text(titles.joinUs);
+    responseWindow.removeClass('active');
+    noResponse.removeClass('active');
+    communityView.addClass('active');
+  }, 300);
 });
 
 restartButton.click(() => {
-  appTitle.text(titles.welcomeTitle);
-  noResponse.removeClass('active');
-  sendingForm.removeClass('valid');
   gtag('event', 'Source', {
     event_category: 'Sources',
     event_action: 'Load',
     event_label: '_Merit.me',
     event_value: 1,
   });
+  setTimeout(() => {
+    appTitle.text(titles.welcomeTitle);
+    noResponse.removeClass('active');
+    sendingForm.removeClass('valid');
+  }, 300);
 });
 
 failButton.click(() => {
-  $('.communityView__gotNothing').show();
-  $('.communityView__gotNothing .discordUser').text(discordUser);
   gtag('event', 'Community User', {
     event_category: 'Analytic',
     event_action: 'Connecting',
     event_label: `_@${discordUser}_at_Discord`,
     event_value: 2,
   });
+  setTimeout(() => {
+    $('.communityView__gotNothing').show();
+    $('.communityView__gotNothing .discordUser').text(discordUser);
+  }, 300);
 });
 
 function requestStatus(socket, remainTime: number) {
@@ -136,27 +142,34 @@ function requestStatus(socket, remainTime: number) {
 
 function defineMessage(container: any, object: any) {
   if (object.message === 'joined') {
-    $('.dialog__item.joined').addClass('active');
-    $('.dialog__item.joined .message').text(`@${object.author}`);
+    discordUser = object.author;
+
     gtag('event', 'Community User', {
       event_category: 'Analytic',
       event_action: 'Connecting',
       event_label: `_@${object.author}_at_Discord`,
       event_value: 0,
     });
-    discordUser = object.author;
+
+    setTimeout(() => {
+      $('.dialog__item.joined').addClass('active');
+      $('.dialog__item.joined .message').text(`@${object.author}`);
+    }, 300);
   } else {
-    $('.dialog__item.inviteCode, .button.success').addClass('active');
-    $('.button.success').attr('href', `https://wallet.merit.me/?invite=${object.message}`);
-    $('.dialog__item.inviteCode .message').html(
-      `Your invite link: <a href="https://wallet.merit.me/?invite=${object.message}" target="_blank">${object.message}</a>`
-    );
     gtag('event', 'Community User', {
       event_category: 'Analytic',
       event_action: 'Connecting',
       event_label: `_@${object.author}_at_Discord`,
       event_value: 1,
     });
+
+    setTimeout(() => {
+      $('.dialog__item.inviteCode, .button.success').addClass('active');
+      $('.button.success').attr('href', `https://wallet.merit.me/?invite=${object.message}`);
+      $('.dialog__item.inviteCode .message').html(
+        `Your invite link: <a href="https://wallet.merit.me/?invite=${object.message}" target="_blank">${object.message}</a>`
+      );
+    }, 300);
   }
 }
 
