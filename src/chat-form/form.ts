@@ -22,7 +22,12 @@ const appTitle = $('.chatWindow__title .text'),
 var discordUser: string;
 
 $('document').ready(function() {
-  gtag('event', 'Source', { event_category: 'Sources', event_action: 'Load', event_label: '_Merit.me' });
+  gtag('event', 'Source', {
+    event_category: 'Sources',
+    event_action: 'Load',
+    event_label: '_Merit.me',
+    event_value: 0,
+  });
   appTitle.text(titles.welcomeTitle);
 });
 
@@ -67,17 +72,35 @@ navigateToCommunityTab.click(() => {
   responseWindow.removeClass('active');
   noResponse.removeClass('active');
   communityView.addClass('active');
+  gtag('event', 'Source', {
+    event_category: 'Sources',
+    event_action: 'Load',
+    event_label: '_Merit.me',
+    event_value: 2,
+  });
 });
 
 restartButton.click(() => {
   appTitle.text(titles.welcomeTitle);
   noResponse.removeClass('active');
   sendingForm.removeClass('valid');
+  gtag('event', 'Source', {
+    event_category: 'Sources',
+    event_action: 'Load',
+    event_label: '_Merit.me',
+    event_value: 1,
+  });
 });
 
 failButton.click(() => {
   $('.communityView__gotNothing').show();
   $('.communityView__gotNothing .discordUser').text(discordUser);
+  gtag('event', 'Community User', {
+    event_category: 'Analytic',
+    event_action: 'Connecting',
+    event_label: `_@${discordUser}_at_Discord`,
+    event_value: 2,
+  });
 });
 
 function requestStatus(socket, remainTime: number) {
@@ -119,6 +142,7 @@ function defineMessage(container: any, object: any) {
       event_category: 'Analytic',
       event_action: 'Connecting',
       event_label: `_@${object.author}_at_Discord`,
+      event_value: 0,
     });
     discordUser = object.author;
   } else {
@@ -127,6 +151,12 @@ function defineMessage(container: any, object: any) {
     $('.dialog__item.inviteCode .message').html(
       `Your invite link: <a href="https://wallet.merit.me/?invite=${object.message}" target="_blank">${object.message}</a>`
     );
+    gtag('event', 'Community User', {
+      event_category: 'Analytic',
+      event_action: 'Connecting',
+      event_label: `_@${object.author}_at_Discord`,
+      event_value: 1,
+    });
   }
 }
 
