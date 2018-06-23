@@ -50,6 +50,7 @@ wss.on('connection', (ws: WebSocket) => {
   let connectionID = wsService.createConnectionID(fakeId++);
 
   (ws as any).id = connectionID;
+  (ws as any).connected = false;
   awaitingQueue.push(ws);
 
   if (DEBUG) {
@@ -113,8 +114,9 @@ discordClient.on('message', (message: any) => {
           console.log('END___IS_CONNECTION_BUSY___');
         }
 
-        if (connection && connection !== null && !isConnectionBusy) {
+        if (connection && !connection.connected && !isConnectionBusy) {
           connection.discordUser = message.author; //attach Discord user to the new connection pair
+          connection.connected = true;
 
           let newPair = new chatPair(discordUser, connection.id);
           let discordUserJoinedMessage = JSON.stringify(new wsMessage(discordUser, strings.joined));
