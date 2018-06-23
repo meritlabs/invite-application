@@ -31,8 +31,8 @@ export function unableToConnect() {
 }
 
 // Sent to the public channel when the APPLICANT has been approved.
-export function requestTaken(id: string) {
-  return `Woooh!  User ${id} is now part of the Merit community, and has been invited by one of you!
+export function requestTaken(id: string, discordUser: string) {
+  return `Woooh!  User ${id} is now part of the Merit community, and has been invited by **@${discordUser}**!
   \n----------------------------------------------------
   \n
   \n`;
