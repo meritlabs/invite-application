@@ -119,9 +119,10 @@ discordClient.on('message', (message: any) => {
           connection.connected = true;
 
           let newPair = new chatPair(discordUser, connection.id);
+
           let discordUserJoinedMessage = JSON.stringify(new wsMessage(discordUser, strings.joined));
           let successfulConnectedToClientMessage = compileMessage.connectedToClient(connection.id);
-          let clientTakenMessage = compileMessage.requestTaken(connection.id);
+          let clientTakenMessage = compileMessage.requestTaken(connection.id, discordUser);
 
           chatPairs.push(newPair); // Add created pair to WS
 
