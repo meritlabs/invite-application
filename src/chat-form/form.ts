@@ -60,6 +60,12 @@ function getParams() {
     });
 
     appTitle.text(titles.welcomeTitle);
+
+    if ((queryDict as any).autoMessage) {
+      let autoMessage = decodeURI((queryDict as any).autoMessage);
+      $('textarea[name=message]').val(autoMessage);
+      sendingForm.submit();
+    }
   });
 
   sendingForm.submit(function(e) {
