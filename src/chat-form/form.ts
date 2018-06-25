@@ -8,6 +8,7 @@ const titles = {
   userConnected: 'Congratulations! Your application has been approved!',
   joinUs: 'Bummer!  Sorry your invite application did not work out.',
 };
+
 const appTitle = $('.chatWindow__title .text'),
   noResponse = $('.noResponse'),
   sendingForm = $('#sendRequest'),
@@ -19,7 +20,16 @@ const appTitle = $('.chatWindow__title .text'),
   communityView = $('.communityView'),
   restartButton = $('.noResponse__navigator .button.try'),
   textareaInvalid = $('#sendRequest.invalid .form__input');
-var discordUser: string, PARAMS: any;
+
+var queryDict = {};
+
+location.search.substr(1).split('&').forEach(function(item) {
+  queryDict[item.split('=')[0]] = item.split('=')[1];
+});
+
+var discordUser: string;
+var PARAMS: any;
+var SOURCE: string = (queryDict as any).source;
 
 function getParams() {
   return new Promise(response => {
@@ -39,15 +49,16 @@ function getParams() {
 }
 
 (async () => {
-  let PARAMS = await getParams();
+  PARAMS = await getParams();
 
   $('document').ready(function() {
     gtag('event', 'Source', {
       event_category: 'Sources',
       event_action: 'Load',
-      event_label: '_Merit.me',
-      event_value: 0,
+      event_label: `_${SOURCE}`,
+      value: 0, // Application loaded
     });
+
     appTitle.text(titles.welcomeTitle);
   });
 
@@ -91,29 +102,27 @@ function getParams() {
     gtag('event', 'Source', {
       event_category: 'Sources',
       event_action: 'Load',
-      event_label: '_Merit.me',
-      event_value: 2,
+      event_label: `_${SOURCE}`,
+      value: 2, // User got response but didn't get code from connected user
     });
-    setTimeout(() => {
-      appTitle.text(titles.joinUs);
-      responseWindow.removeClass('active');
-      noResponse.removeClass('active');
-      communityView.addClass('active');
-    }, 300);
+
+    appTitle.text(titles.joinUs);
+    responseWindow.removeClass('active');
+    noResponse.removeClass('active');
+    communityView.addClass('active');
   });
 
   restartButton.click(() => {
     gtag('event', 'Source', {
       event_category: 'Sources',
       event_action: 'Load',
-      event_label: '_Merit.me',
-      event_value: 1,
+      event_label: `_${SOURCE}`,
+      value: 1, // User didn't get response from community
     });
-    setTimeout(() => {
-      appTitle.text(titles.welcomeTitle);
-      noResponse.removeClass('active');
-      sendingForm.removeClass('valid');
-    }, 300);
+
+    appTitle.text(titles.welcomeTitle);
+    noResponse.removeClass('active');
+    sendingForm.removeClass('valid');
   });
 
   failButton.click(() => {
@@ -121,12 +130,11 @@ function getParams() {
       event_category: 'Analytic',
       event_action: 'Connecting',
       event_label: `_@${discordUser}_at_Discord`,
-      event_value: 2,
+      value: 2,
     });
-    setTimeout(() => {
-      $('.communityView__gotNothing').show();
-      $('.communityView__gotNothing .discordUser').text(discordUser);
-    }, 300);
+
+    $('.communityView__gotNothing').show();
+    $('.communityView__gotNothing .discordUser').text(discordUser);
   });
 
   function requestStatus(socket, remainTime: number) {
@@ -168,29 +176,32 @@ function getParams() {
         event_category: 'Analytic',
         event_action: 'Connecting',
         event_label: `_@${object.author}_at_Discord`,
-        event_value: 0,
+        value: 0,
       });
 
-      setTimeout(() => {
-        $('.dialog__item.joined').addClass('active');
-        $('.dialog__item.joined .message').text(`@${object.author}`);
-      }, 300);
+      $('.dialog__item.joined').addClass('active');
+      $('.dialog__item.joined .message').text(`@${object.author}`);
     } else {
       gtag('event', 'Community User', {
         event_category: 'Analytic',
         event_action: 'Connecting',
         event_label: `_@${object.author}_at_Discord`,
-        event_value: 1,
+        value: 1,
       });
 
-      setTimeout(() => {
-        $('.dialog__item.inviteCode, .button.success').addClass('active');
-        $('.button.success').attr('href', `${(PARAMS as any).wallet_app}?invite=${object.message}`);
-        $('.dialog__item.inviteCode .message').html(
-          `Your invite link: <a href="${(PARAMS as any)
-            .wallet_app}?invite=${object.message}" target="_blank">${object.message}</a>`
-        );
-      }, 300);
+      let linkTarget = '_blank';
+
+      if (SOURCE === 'dlw') linkTarget = '_parent';
+
+      $('.dialog__item.inviteCode, .button.success').addClass('active');
+
+      $('.button.success')
+        .attr('href', `${(PARAMS as any).wallet_app}?invite=${object.message}`)
+        .attr('target', linkTarget);
+      $('.dialog__item.inviteCode .message').html(
+        `Your invite link: <a href="${(PARAMS as any)
+          .wallet_app}?invite=${object.message}" target="${linkTarget}">${object.message}</a>`
+      );
     }
   }
 
