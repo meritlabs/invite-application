@@ -1,10 +1,10 @@
 import { validationStatuses } from './../common/ts/const';
 const https = require('https');
 
-export function validateInviteCode(invite) {
+export function validateInviteCode(invite, mwsUrl) {
   return new Promise((resolve, rejected) => {
     https
-      .get(`https://mws.merit.me/bws/api/v1/addresses/${invite}/validate`, resp => {
+      .get(`${mwsUrl}addresses/${invite}/validate`, resp => {
         resp.on('data', chunk => {
           let result = JSON.parse(chunk);
           if (result.isValid && result.isBeaconed && result.isConfirmed)

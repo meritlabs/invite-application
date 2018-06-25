@@ -8,6 +8,7 @@ import * as Discord from 'discord.js';
 import * as discordService from './services/discord.service';
 import * as wsService from './services/websocket.service';
 import * as compileMessage from './services/compile-message.service';
+import * as expressService from './services/expess.service';
 import * as mws from './services/mws.service';
 import { chatPair, wsMessage } from './common/ts/classes';
 import { messageTypes, validationStatuses, strings } from './common/ts/const';
@@ -20,7 +21,9 @@ const app = express(),
   BOT_TOKEN = process.env.BOT_TOKEN || '',
   APP_SLUG = process.env.APP_SLUG || '/get-invite',
   PORT = process.env.PORT || 8999,
-  DEBUG = process.env.DEBUG || false;
+  DEBUG = process.env.DEBUG || false,
+  WALLET_APPLICATION = process.env.WALLET_APPLICATION || 'https://wallet.merit.me/',
+  MWS_URL = process.env.MWS_URL || 'https://mws.merit.me/bws/api/v1/';
 
 //initialize the WebSocket server instance
 const wss = new WebSocket.Server({ server });
@@ -34,7 +37,10 @@ server.listen(PORT, () => {
 });
 
 // Get guild info
-discordService.getGuildInfo(app, discordClient, GUILD_NAME);
+expressService.getGuildInfo(app, discordClient, GUILD_NAME);
+
+// Get application env variables
+expressService.formConfig(app, { wallet: WALLET_APPLICATION, mws: MWS_URL });
 
 // Serve invite application
 app.use(APP_SLUG, express.static('./dist/server/chat-form'));
@@ -134,7 +140,7 @@ discordClient.on('message', (message: any) => {
         }
         break;
       case messageTypes.regularMessage:
-        mws.validateInviteCode(_message).then(res => {
+        mws.validateInviteCode(_message, MWS_URL).then(res => {
           let response: any = res;
           let validationStatus = response.status;
           let connection = wsService.getConnection(awaitingQueue, pair.get('wsUser'));
