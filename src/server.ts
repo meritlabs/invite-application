@@ -22,8 +22,8 @@ const app = express(),
   APP_SLUG = process.env.APP_SLUG || '/get-invite',
   PORT = process.env.PORT || 8999,
   DEBUG = process.env.DEBUG || false,
-  WALLET_APPLICATION = process.env.WALLET_APPLICATION || 'https://wallet.merit.me/',
-  MWS_URL = process.env.MWS_URL || 'https://mws.merit.me/bws/api/v1/';
+  WALLET_APPLICATION = process.env.WALLET_APPLICATION || 'https://testnet.wallet.merit.me/',
+  MWS_URL = process.env.MWS_URL || 'https://testnet.mws.merit.me/bws/api/v1/';
 
 //initialize the WebSocket server instance
 const wss = new WebSocket.Server({ server });
