@@ -1,21 +1,5 @@
 import { messageTypes, commands, strings } from './../common/ts/const';
 
-// Function for getting and checking guild
-export function getGuildInfo(app: any, client: any, GUILD_NAME: string) {
-  client.on('ready', () => {
-    var guilds = client.guilds.array(),
-      membersCount = 0;
-    guilds.forEach((item: any) => {
-      if (item.name === GUILD_NAME) {
-        membersCount = item.memberCount;
-        app.get('/', function(req: any, res: any) {
-          res.jsonp({ channel: GUILD_NAME, members: membersCount });
-        });
-      }
-    });
-  });
-}
-
 // function for position messages in the public channel(s) of the selected guild
 export async function sendToChannels(client: any, channels: any, message: string) {
   return client.guilds.forEach((guild: any) => {
