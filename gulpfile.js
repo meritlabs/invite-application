@@ -2,7 +2,8 @@
 var gulp = require('gulp'),
   htmlmin = require('gulp-htmlmin'),
   sass = require('gulp-sass'),
-  shell = require('gulp-shell');
+  shell = require('gulp-shell'),
+  minifyjs = require('gulp-js-minify');
 
 gulp.task('html', function() {
   return gulp
@@ -16,6 +17,10 @@ gulp.task('sass', function() {
     .src('src/chat-form/form.sass')
     .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
     .pipe(gulp.dest('dist/server/chat-form/'));
+});
+
+gulp.task('minify-js', function() {
+  gulp.src('./dist/**/*.js').pipe(minifyjs()).pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('compileTS', shell.task('./node_modules/.bin/tsc'));

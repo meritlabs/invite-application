@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "run:server": "node ./dist/server/server.js",
     "run:dev-server": "WALLET_APPLICATION=http://localhost:8888/ GUILD_NAME=Test CHANNELS=invites,test BOT_TOKEN=NDU4NzA2NTQxMTU2MjM3MzE1.Dgrjpw.xgCqe8QcT2J3BuYcUuVJNHwgKw4 node ./dist/server/server.js",
-    "gulp:build": "./node_modules/.bin/gulp compileTS && ./node_modules/.bin/gulp sass && ./node_modules/.bin/gulp html && ./node_modules/.bin/gulp cpImages",
+    "gulp:build": "./node_modules/.bin/gulp compileTS && ./node_modules/.bin/gulp sass && ./node_modules/.bin/gulp html && ./node_modules/.bin/gulp cpImages && ./node_modules/.bin/gulp minify-js",
     "gulp:watch": "./node_modules/.bin/gulp watch"
   },
   "repository": {
@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-js-minify": "0.0.3",
     "gulp-sass": "^4.0.1",
     "gulp-shell": "^0.6.5",
     "npm-run-all": "^4.1.3"
