@@ -19,10 +19,6 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('dist/server/chat-form/'));
 });
 
-gulp.task('minify-js', function() {
-  gulp.src('./dist/**/*.js').pipe(minifyjs()).pipe(gulp.dest('./dist/'));
-});
-
 gulp.task('compileTS', shell.task('./node_modules/.bin/tsc'));
 
 gulp.task('cpImages', shell.task('cp -a src/common/images dist/server/chat-form/'));
