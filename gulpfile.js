@@ -2,8 +2,7 @@
 var gulp = require('gulp'),
   htmlmin = require('gulp-htmlmin'),
   sass = require('gulp-sass'),
-  shell = require('gulp-shell'),
-  minifyjs = require('gulp-js-minify');
+  shell = require('gulp-shell');
 
 gulp.task('html', function() {
   return gulp

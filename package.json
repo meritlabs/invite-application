@@ -36,7 +36,6 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-js-minify": "0.0.3",
     "gulp-sass": "^4.0.1",
     "gulp-shell": "^0.6.5",
     "npm-run-all": "^4.1.3"
