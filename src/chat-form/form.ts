@@ -72,8 +72,9 @@ function getParams() {
     e.preventDefault();
     let message = $('textarea[name=message]').val();
     let host = `wss://${window.location.host}/`;
+    let validateMessage = validateApplication(message);
     if (/^localhost/.test(window.location.host)) host = `ws://${window.location.host}/`;
-    if (message.length > 74) {
+    if (validateMessage === 'valid') {
       let socket: any = new WebSocket(host);
 
       socket.onopen = function() {
@@ -94,6 +95,7 @@ function getParams() {
         });
       };
     } else {
+      $('.invalidMessage').text(validateMessage);
       sendingForm.addClass('invalid').removeClass('valid');
     }
   });
@@ -209,6 +211,21 @@ function getParams() {
           .wallet_app}?invite=${object.message}" target="${linkTarget}">${object.message}</a>`
       );
     }
+  }
+
+  function validateApplication(value) {
+    let status = 'valid';
+    let isMnemonic = value.split(' ').length;
+    if (value.length < 74) {
+      status = `Minimum application length: 75 characters.`;
+    }
+    if (isMnemonic === 12) {
+      status = `Sorry, but the text of your application is invalid. 
+      Looks like you entered a secret mnemonic phrase. 
+      Be careful and never show this phrase to anybody, 
+      remember if you forget these 12 words you will lose your wallet!`;
+    }
+    return status;
   }
 
   // Class for invite response for form messenger
