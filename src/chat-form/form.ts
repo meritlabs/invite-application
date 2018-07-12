@@ -222,8 +222,7 @@ function getParams() {
       status = `Minimum application length: 75 characters.`;
     }
     if (isMnemonic === 12 && !punctuationTest) {
-      status = `Sorry, but the text of your application is invalid. 
-      Looks like you entered a secret mnemonic phrase. 
+      status = `Looks like you entered a secret mnemonic phrase. 
       Be careful and never show this phrase to anybody, 
       remember if you forget these 12 words you will lose your wallet!`;
     }
