@@ -216,10 +216,12 @@ function getParams() {
   function validateApplication(value) {
     let status = 'valid';
     let isMnemonic = value.split(' ').length;
+    let punctuationTest = new RegExp(/[:.,!@$%;'"/#&]/g).test(value);
+
     if (value.length < 74) {
       status = `Minimum application length: 75 characters.`;
     }
-    if (isMnemonic === 12) {
+    if (isMnemonic === 12 && !punctuationTest) {
       status = `Sorry, but the text of your application is invalid. 
       Looks like you entered a secret mnemonic phrase. 
       Be careful and never show this phrase to anybody, 
