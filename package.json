@@ -16,7 +16,10 @@
     "type": "git",
     "url": "git+https://github.com/meritlabs/discord-bot.git"
   },
-  "keywords": ["discord", "merit"],
+  "keywords": [
+    "discord",
+    "merit"
+  ],
   "author": "Vladimir Gutorov",
   "license": "ISC",
   "bugs": {
@@ -26,6 +29,7 @@
   "dependencies": {
     "@types/express": "^4.11.1",
     "@types/ws": "^5.1.1",
+    "bad-words": "^1.6.1",
     "discord.js": "^11.3.2",
     "express": "^4.16.3",
     "gulp-html": "^0.5.0",
