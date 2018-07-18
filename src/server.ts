@@ -12,9 +12,10 @@ import * as expressService from './services/expess.service';
 import * as mws from './services/mws.service';
 import { chatPair, wsMessage } from './common/ts/classes';
 import { messageTypes, validationStatuses, strings } from './common/ts/const';
+import whiteList from './common/ts/whiteList';
 
 const Filter = require('bad-words');
-const detectRudeWords = new Filter({ placeHolder: '♥' });
+const detectRudeWords = new Filter({ placeHolder: '♥', exclude: whiteList() });
 
 const app = express(),
   server = http.createServer(app),
