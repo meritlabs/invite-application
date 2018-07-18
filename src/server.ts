@@ -13,6 +13,9 @@ import * as mws from './services/mws.service';
 import { chatPair, wsMessage } from './common/ts/classes';
 import { messageTypes, validationStatuses, strings } from './common/ts/const';
 
+const Filter = require('bad-words');
+const detectRudeWords = new Filter({ placeHolder: '♥' });
+
 const app = express(),
   server = http.createServer(app),
   discordClient = new Discord.Client(),
@@ -67,6 +70,7 @@ wss.on('connection', (ws: WebSocket) => {
 
   ws.on('message', (message: string) => {
     if (message.length > 74) {
+      message = detectRudeWords.clean(message);
       discordService.sendToChannels(discordClient, CHANNELS, compileMessage.inviteRequest(message, connectionID));
     } else {
       if (DEBUG) {
