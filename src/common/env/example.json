@@ -1,0 +1,6 @@
+{
+  "WALLET_APPLICATION": "http://localhost:8888/",
+  "GUILD_NAME": "Test",
+  "CHANNELS": "invites",
+  "BOT_TOKEN": "SECRET_BOT_TOKEN_HERE"
+}
