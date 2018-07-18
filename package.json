@@ -4,12 +4,13 @@
   "description": "Discord bot for community size parsing",
   "main": "index.js",
   "scripts": {
-    "start": "npm run gulp:build && npm run run:server",
+    "start": "npm run prepare && npm run gulp:build && npm run run:server",
     "start:dev": "npm-run-all --parallel gulp:watch run:server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "run:server": "node ./dist/server/server.js",
     "gulp:build": "./node_modules/.bin/gulp compileTS && ./node_modules/.bin/gulp sass && ./node_modules/.bin/gulp html && ./node_modules/.bin/gulp cpImages",
-    "gulp:watch": "./node_modules/.bin/gulp watch"
+    "gulp:watch": "./node_modules/.bin/gulp watch",
+    "prepare": "cp src/common/env/example.ts src/common/env/dev.ts && rm -rd dist && npm run gulp:build"
   },
   "repository": {
     "type": "git",

@@ -62,4 +62,4 @@ typings/
 
 dist
 
-src/common/env/dev.json
+src/common/env/dev.ts
