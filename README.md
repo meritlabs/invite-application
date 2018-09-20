@@ -15,14 +15,13 @@ yarn
 
 Configure environment:
 ```
-export GUILD_NAME = process.env.GUILD_NAME || config.ENV.GUILD_NAME,
-export CHANNELS = CHANNELS || config.ENV.CHANNELS,
+export GUILD_NAME = my-guild # discord server name
+export CHANNELS = my-channels # discord channel name
 export BOT_TOKEN = my-token # discord auth token
-export APP_SLUG = process.env.APP_SLUG || config.ENV.APP_SLUG,
-export PORT = process.env.PORT || config.ENV.PORT,
-export DEBUG = process.env.DEBUG || config.ENV.DEBUG,
-export WALLET_APPLICATION = process.env.WALLET_APPLICATION || config.ENV.WALLET_APPLICATION,
-export MWS_URL = process.env.MWS_URL || config.ENV.MWS_URL;
+export PORT = 8080 # port for the bot server
+export DEBUG = true # debug flag
+export WALLET_APPLICATION = http://testnet.wallet.merit.me # URL to wallet application
+export MWS_URL = http://testnet.mws.merit.me # URL to the MWS server
 ```
 
 Run the server:
