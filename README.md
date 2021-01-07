@@ -45,4 +45,4 @@ Please, check out our [Contribution guide](./CONTRIBUTING.md) and [Code of Condu
 
 **Code released under [the MIT license](./LICENSE).**
 
-Copyright (C) 2017 - 2018 The Merit Foundation.
+Copyright (C) 2017 - 2021 The Merit Foundation.
