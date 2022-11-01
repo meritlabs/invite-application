@@ -36,7 +36,7 @@
     "ws": "^5.2.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-sass": "^4.0.1",
     "gulp-shell": "^0.6.5",
     "npm-run-all": "^4.1.3"
