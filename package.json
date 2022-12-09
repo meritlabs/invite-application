@@ -28,7 +28,7 @@
     "@types/ws": "^5.1.1",
     "bad-words": "^1.6.1",
     "discord.js": "^11.3.2",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "gulp-html": "^0.5.0",
     "gulp-htmlmin": "^4.0.0",
     "http": "0.0.0",
